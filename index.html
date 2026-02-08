@@ -5,467 +5,454 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0B0F19">
+    <meta name="theme-color" content="#000000">
     <title>Finance Master</title>
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIFBybyIsCiAgInNob3J0X25hbWUiOiAiRmluYW5jZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMEIwRjE5IiwKICAidGhlbWVfY29sb3IiOiAiIzBCMEYxOSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJodHRwcz6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIFBybyIsCiAgInNob3J0X25hbWUiOiAiRmluYW5jZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDAwMDAwIiwKICAidGhlbWVfY29sb3IiOiAiIzAwMDAwMCIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbXQp9">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Palette Finary-Like */
-            --bg-body: #0B0F19;
-            --surface: #161C2C;
-            --surface-light: #232B42;
-            --primary: #5E5CE6; /* Indigo Neon */
-            --primary-glow: rgba(94, 92, 230, 0.4);
-            --text-main: #FFFFFF;
-            --text-muted: #94A3B8;
-            --success: #34D399;
-            --danger: #F87171;
-            --warning: #FBBF24;
-            --border: rgba(255, 255, 255, 0.08);
+            /* Palette Ultra-Premium (Style Finary/Revolut) */
+            --bg: #000000;
+            --surface: #121212;
+            --surface-highlight: #1E1E1E;
+            --primary: #3b82f6; /* Electric Blue */
+            --accent: #8b5cf6;  /* Purple */
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --gold: #F59E0B;
             
-            --radius: 16px;
+            --radius: 20px;
+            --border: 1px solid rgba(255,255,255,0.08);
             --safe-bottom: env(safe-area-inset-bottom);
-            --font: 'Inter', sans-serif;
+            --font: 'Inter', -apple-system, sans-serif;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; font-family: var(--font); }
         
         body {
-            background-color: var(--bg-body);
+            background-color: var(--bg);
             color: var(--text-main);
-            padding-bottom: calc(100px + var(--safe-bottom));
+            padding-bottom: calc(110px + var(--safe-bottom));
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- HEADER ULTRA CLEAN --- */
+        /* --- HEADER HERO --- */
         .header {
-            padding: 20px 24px 10px;
-            background: linear-gradient(180deg, rgba(11,15,25,1) 0%, rgba(11,15,25,0) 100%);
-            position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px);
+            padding: 20px 24px 0;
+            background: linear-gradient(180deg, rgba(18,18,18,1) 0%, rgba(0,0,0,0) 100%);
+            position: sticky; top: 0; z-index: 50;
+            backdrop-filter: blur(10px);
         }
-        .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .brand { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
-        .pro-pill { background: linear-gradient(90deg, #F59E0B, #D97706); color: black; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: none; box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
         
-        .settings-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--text-main); border: 1px solid var(--border); transition: 0.2s; }
-        .settings-btn:active { transform: scale(0.95); background: var(--surface-light); }
+        .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .user-pill {
+            background: var(--surface-highlight); padding: 6px 12px; border-radius: 30px;
+            display: flex; align-items: center; gap: 8px; border: var(--border); font-size: 13px; font-weight: 600;
+        }
+        .pro-dot { width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%; }
+        .is-pro .pro-dot { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+        
+        .settings-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--surface); border: var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-main); font-size: 18px; transition: 0.2s; }
+        .settings-btn:active { transform: scale(0.9); }
 
-        .net-worth { text-align: center; padding: 20px 0 40px; }
-        .nw-label { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 8px; }
-        .nw-amount { font-size: 42px; font-weight: 700; letter-spacing: -1.5px; background: linear-gradient(180deg, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nw-change { font-size: 13px; color: var(--success); background: rgba(52, 211, 153, 0.1); padding: 4px 12px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: 600; }
+        .balance-section { text-align: center; margin-bottom: 20px; animation: fadeIn 0.6s ease; }
+        .balance-label { font-size: 13px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+        .balance-amount { font-size: 48px; font-weight: 800; margin: 10px 0; letter-spacing: -2px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .balance-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(34, 197, 94, 0.1); color: var(--success); border-radius: 20px; font-size: 13px; font-weight: 600; }
 
-        /* --- LAYOUT & CARDS --- */
+        /* --- LAYOUT --- */
         .container { padding: 0 20px; }
-        .view { display: none; opacity: 0; animation: fadeIn 0.4s forwards; }
-        .view.active { display: block; }
-        @keyframes fadeIn { to { opacity: 1; } }
-
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin: 30px 0 15px; }
-        .section-title { font-size: 18px; font-weight: 600; color: var(--text-main); letter-spacing: -0.5px; }
+        .view { display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .view.active { display: block; opacity: 1; }
         
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 40px 0 20px; }
+        .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+        
+        /* --- PREMIUM CARDS --- */
         .card {
             background: var(--surface);
-            border: 1px solid var(--border);
+            border: var(--border);
             border-radius: var(--radius);
-            padding: 16px;
+            padding: 20px;
             margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s;
+            position: relative; overflow: hidden;
+            transition: transform 0.1s;
         }
-        .card:active { transform: scale(0.99); background: var(--surface-light); }
+        .card:active { transform: scale(0.98); background: var(--surface-highlight); }
 
-        /* --- LISTS --- */
-        .row-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .row-item:last-child { border: none; padding-bottom: 0; }
-        .row-item:first-child { padding-top: 0; }
+        .row-item { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
         
-        .icon-box { 
-            width: 44px; height: 44px; border-radius: 12px; background: var(--surface-light); 
-            display: flex; align-items: center; justify-content: center; font-size: 18px; 
-            margin-right: 16px; color: var(--text-main); border: 1px solid var(--border);
+        .icon-wrapper {
+            width: 48px; height: 48px; border-radius: 16px; background: var(--surface-highlight);
+            display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 16px;
+            color: var(--text-main); border: 1px solid rgba(255,255,255,0.05);
         }
         
-        .info-col { flex: 1; }
-        .main-text { font-size: 15px; font-weight: 600; color: #fff; display: block; margin-bottom: 2px; }
-        .sub-text { font-size: 12px; color: var(--text-muted); font-weight: 500; }
-        .amount-col { text-align: right; }
-        .amount-text { font-size: 15px; font-weight: 600; color: #fff; display: block; }
-        .percent-text { font-size: 12px; font-weight: 500; }
+        .item-details h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .item-details p { font-size: 13px; color: var(--text-muted); }
+        .item-value { text-align: right; }
+        .item-value h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.5px; }
+        .item-value p { font-size: 12px; font-weight: 600; }
         
-        .inc { color: var(--success); }
-        .exp { color: var(--text-main); } /* White for expenses in dark mode looks cleaner */
+        .green-txt { color: var(--success); }
+        .red-txt { color: var(--danger); }
 
-        /* --- BUTTONS & ACTIONS --- */
-        .btn-add-mini {
-            width: 32px; height: 32px; border-radius: 10px; background: var(--primary); 
-            color: white; border: none; display: flex; align-items: center; justify-content: center; 
-            font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px var(--primary-glow);
+        /* --- BUTTONS --- */
+        .btn-add {
+            width: 36px; height: 36px; border-radius: 12px; background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; border: none;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); transition: 0.2s;
         }
-        
-        .btn-large {
-            width: 100%; padding: 16px; background: var(--primary); color: white;
-            border: none; border-radius: 14px; font-size: 16px; font-weight: 600;
-            margin-top: 15px; cursor: pointer; transition: 0.2s;
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-        .btn-large:active { transform: scale(0.98); opacity: 0.9; }
+        .btn-add:active { transform: scale(0.9); }
 
-        /* --- NAVIGATION (Blur Dock) --- */
-        .nav-dock {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            width: calc(100% - 40px); max-width: 400px;
-            background: rgba(22, 28, 44, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px; padding: 12px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 100; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        .btn-block {
+            width: 100%; padding: 18px; border-radius: 18px; background: var(--text-main); color: var(--bg);
+            font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;
         }
-        .nav-item { 
-            font-size: 22px; color: var(--text-muted); padding: 8px; 
-            transition: 0.3s; position: relative; cursor: pointer; 
+        .btn-block:active { transform: scale(0.98); opacity: 0.9; }
+
+        /* --- NAVIGATION --- */
+        .dock-wrapper {
+            position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; z-index: 100;
         }
-        .nav-item.active { color: var(--primary); transform: translateY(-4px); }
+        .dock {
+            background: rgba(22, 22, 22, 0.85); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 28px;
+            padding: 12px 24px; display: flex; gap: 24px; align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .nav-item {
+            color: var(--text-muted); font-size: 24px; padding: 8px; 
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative;
+        }
+        .nav-item.active { color: var(--primary); transform: translateY(-5px); }
         .nav-item.active::after {
-            content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
-            width: 4px; height: 4px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary);
+            content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 4px; background: var(--primary); border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
         }
 
-        /* --- MODALS (Bottom Sheet) --- */
-        .modal-overlay {
+        /* --- MARKET CHIPS --- */
+        .chip-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; scrollbar-width: none; }
+        .chip {
+            padding: 10px 20px; background: var(--surface); border: var(--border); border-radius: 100px;
+            color: var(--text-muted); font-size: 13px; font-weight: 600; white-space: nowrap; transition: 0.2s;
+        }
+        .chip.active { background: var(--text-main); color: var(--bg); border-color: var(--text-main); }
+
+        /* --- MODALS (Sheet) --- */
+        .sheet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
-            z-index: 200; display: none; align-items: flex-end;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 200;
+            display: none; align-items: flex-end;
         }
-        .modal-overlay.open { display: flex; animation: bgFade 0.3s; }
-        .modal-sheet {
-            background: #1A202E; width: 100%; border-radius: 32px 32px 0 0; padding: 30px 24px 50px;
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-            border-top: 1px solid var(--border); max-height: 90vh; overflow-y: auto;
+        .sheet-overlay.open { display: flex; animation: fadeIn 0.2s; }
+        .sheet {
+            background: #161616; width: 100%; border-radius: 32px 32px 0 0;
+            border-top: 1px solid rgba(255,255,255,0.1); padding: 30px 24px 50px;
+            transform: translateY(100%); transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            max-height: 90vh; overflow-y: auto;
         }
-        .modal-overlay.open .modal-sheet { transform: translateY(0); }
-        .handle { width: 40px; height: 4px; background: var(--text-muted); opacity: 0.2; border-radius: 2px; margin: 0 auto 25px; }
+        .sheet-overlay.open .sheet { transform: translateY(0); }
+        .handle { width: 40px; height: 4px; background: var(--surface-highlight); border-radius: 4px; margin: 0 auto 30px; }
 
-        .input-group { margin-bottom: 20px; }
-        .label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-box { margin-bottom: 20px; }
+        .input-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .input {
-            width: 100%; padding: 16px; background: var(--bg-body); border: 1px solid var(--border);
-            border-radius: 12px; color: white; font-size: 16px; outline: none; transition: 0.3s;
+            width: 100%; background: var(--bg); border: 1px solid var(--surface-highlight);
+            color: white; padding: 18px; border-radius: 16px; font-size: 16px; outline: none; transition: 0.2s;
         }
-        .input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-glow); }
+        .input:focus { border-color: var(--primary); }
         select.input { appearance: none; }
 
-        /* --- MARKET & CHARTS --- */
-        .chip-scroller { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; scrollbar-width: none; }
-        .chip {
-            padding: 8px 16px; background: var(--surface); border: 1px solid var(--border);
-            border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-muted);
-            white-space: nowrap; cursor: pointer; transition: 0.2s;
+        /* --- ADS & EXTRAS --- */
+        .ad-container {
+            margin-bottom: 30px; padding: 1px; border-radius: 20px;
+            background: linear-gradient(45deg, #1e1e1e, #000);
         }
-        .chip.active { background: var(--text-main); color: var(--bg-body); border-color: var(--text-main); }
-
-        /* --- PROGRESS BARS --- */
-        .progress-bg { height: 6px; background: var(--surface-light); border-radius: 3px; overflow: hidden; margin-top: 10px; }
-        .progress-val { height: 100%; background: var(--primary); border-radius: 3px; }
-
-        /* --- EXTRAS --- */
-        .ad-banner {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px dashed var(--text-muted); border-radius: 16px;
-            padding: 20px; text-align: center; margin-bottom: 20px; opacity: 0.8;
+        .ad-content {
+            background: var(--surface); border-radius: 19px; padding: 20px;
+            text-align: center; color: var(--text-muted); font-size: 12px;
         }
         
-        .skeleton { background: linear-gradient(90deg, var(--surface-light) 25%, var(--bg-body) 50%, var(--surface-light) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
+        .progress-bg { height: 6px; background: var(--surface-highlight); border-radius: 3px; margin-top: 15px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--primary); border-radius: 3px; }
+
+        /* SKELETON */
+        .skeleton { background: linear-gradient(90deg, var(--surface-highlight) 25%, var(--bg) 50%, var(--surface-highlight) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
         @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
     </style>
 </head>
 <body>
 
-    <div id="toast" style="position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:#FFFFFF; color:#000; padding:12px 24px; border-radius:30px; font-weight:600; z-index:300; transition:0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display:flex; gap:10px; align-items:center; box-shadow:0 10px 40px rgba(0,0,0,0.5);"></div>
+    <div id="toast" style="position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:white; color:black; padding:12px 24px; border-radius:100px; font-weight:600; z-index:999; transition:0.4s; box-shadow:0 10px 40px rgba(0,0,0,0.5);"></div>
 
     <div class="header">
         <div class="top-row">
-            <div class="brand"><i class="fa-solid fa-shapes"></i> Finance Master <span id="proBadge" class="pro-pill">PRO</span></div>
+            <div class="user-pill">
+                <div class="pro-dot"></div> <span id="statusText">Standard</span>
+            </div>
             <div class="settings-btn" onclick="switchView('settings')"><i class="fa-solid fa-sliders"></i></div>
         </div>
-        <div class="net-worth">
-            <div class="nw-label">PATRIMOINE NET</div>
-            <div class="nw-amount" id="totalBalance">---</div>
-            <div class="nw-change" id="balanceDetails"><i class="fa-solid fa-arrow-trend-up"></i> Calcul...</div>
+        <div class="balance-section">
+            <div class="balance-label">Patrimoine Net</div>
+            <div class="balance-amount" id="totalBalance">0,00 €</div>
+            <div class="balance-pill" id="balanceDetails"><i class="fa-solid fa-arrow-trend-up"></i> Calcul...</div>
         </div>
     </div>
 
-    <div class="nav-dock">
-        <div class="nav-item active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-house"></i></div>
-        <div class="nav-item" onclick="switchView('budget', this)"><i class="fa-solid fa-wallet"></i></div>
-        <div class="nav-item" onclick="switchView('market', this)"><i class="fa-solid fa-chart-line"></i></div>
-        <div class="nav-item" onclick="switchView('recurring', this)"><i class="fa-solid fa-rotate"></i></div>
-        <div class="nav-item" onclick="switchView('stats', this)"><i class="fa-solid fa-chart-pie"></i></div>
+    <div class="dock-wrapper">
+        <div class="dock">
+            <div class="nav-item active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-house"></i></div>
+            <div class="nav-item" onclick="switchView('budget', this)"><i class="fa-solid fa-wallet"></i></div>
+            <div class="nav-item" onclick="switchView('market', this)"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="nav-item" onclick="switchView('recurring', this)"><i class="fa-solid fa-rotate"></i></div>
+            <div class="nav-item" onclick="switchView('stats', this)"><i class="fa-solid fa-chart-pie"></i></div>
+        </div>
     </div>
 
     <div class="container">
         
         <div id="dashboardView" class="view active">
-            <div class="ad-banner" id="ad1"><small style="color:gray; letter-spacing:2px">SPONSORISÉ</small><br><br>Espace Publicitaire</div>
-            
+            <div class="ad-container" id="ad1">
+                <div class="ad-content">
+                    <i class="fa-solid fa-ad" style="font-size:20px; margin-bottom:10px;"></i><br>
+                    Espace Publicitaire (Google Ads)
+                </div>
+            </div>
+
             <div class="section-header">
                 <span class="section-title">Comptes</span>
-                <button class="btn-add-mini" onclick="openModal('modalAccount')"><i class="fa-solid fa-plus"></i></button>
+                <button class="btn-add" onclick="openSheet('acc')"><i class="fa-solid fa-plus"></i></button>
             </div>
             <div id="accountsList"></div>
 
             <div class="section-header">
-                <span class="section-title">Dernières Opérations</span>
-                <button class="btn-add-mini" onclick="openModal('modalTransac')"><i class="fa-solid fa-plus"></i></button>
+                <span class="section-title">Activités</span>
+                <button class="btn-add" onclick="openSheet('tx')"><i class="fa-solid fa-plus"></i></button>
             </div>
-            <div id="transactionsList" class="card" style="min-height:100px; display:flex; align-items:center; justify-content:center; opacity:0.5;"></div>
+            <div id="transactionsList">
+                <div class="card" style="text-align:center; padding:40px; color:var(--text-muted)">Aucune transaction</div>
+            </div>
         </div>
 
         <div id="budgetView" class="view">
             <div class="section-header">
                 <span class="section-title">Budgets</span>
-                <button class="btn-add-mini" onclick="openModal('modalBudget')"><i class="fa-solid fa-plus"></i></button>
+                <button class="btn-add" onclick="openSheet('bud')"><i class="fa-solid fa-plus"></i></button>
             </div>
             <div id="budgetList"></div>
 
             <div class="section-header">
                 <span class="section-title">Objectifs</span>
-                <button class="btn-add-mini" onclick="openModal('modalGoal')"><i class="fa-solid fa-plus"></i></button>
+                <button class="btn-add" onclick="openSheet('goal')"><i class="fa-solid fa-plus"></i></button>
             </div>
             <div id="goalsList"></div>
         </div>
 
         <div id="marketView" class="view">
-            <div class="chip-scroller">
+            <div class="chip-row">
                 <div class="chip active" onclick="filterMarket('all', this)">Tout</div>
                 <div class="chip" onclick="filterMarket('crypto', this)">Cryptos</div>
                 <div class="chip" onclick="filterMarket('stock', this)">Actions</div>
             </div>
-            <input type="text" class="input" placeholder="Rechercher un actif..." oninput="searchMarket(this.value)" style="margin-bottom:15px;">
-            <div class="ad-banner" id="ad2" style="padding:10px; font-size:12px;">⚡ Trading Zéro Commission</div>
-            <div id="marketList" class="card" style="padding:0;"></div>
+            <input type="text" class="input" placeholder="Rechercher (Bitcoin, Apple...)" oninput="searchMarket(this.value)" style="margin-bottom:20px;">
+            <div class="ad-container" id="ad2"><div class="ad-content">📢 Trading Zéro Frais</div></div>
+            <div id="marketList"></div>
         </div>
 
         <div id="recurringView" class="view">
             <div class="section-header">
-                <span class="section-title">Abonnements</span>
-                <button class="btn-add-mini" onclick="openModal('modalRecurring')"><i class="fa-solid fa-plus"></i></button>
+                <span class="section-title">Fixes & Abonnements</span>
+                <button class="btn-add" onclick="openSheet('rec')"><i class="fa-solid fa-plus"></i></button>
             </div>
-            <div class="card" style="background: linear-gradient(135deg, #5E5CE6, #3634A3); border:none;">
-                <div style="font-size:12px; opacity:0.8;">CHARGES FIXES MENSUELLES</div>
-                <div style="font-size:24px; font-weight:700; margin-top:5px;" id="totalRecurring">0 €</div>
+            <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--accent)); border:none;">
+                <div style="font-size:12px; opacity:0.8;">CHARGES MENSUELLES</div>
+                <div style="font-size:28px; font-weight:700; margin-top:5px;" id="totalRec">0 €</div>
             </div>
             <div id="recurringList"></div>
         </div>
 
         <div id="statsView" class="view">
             <div class="section-header"><span class="section-title">Répartition</span></div>
-            <div class="card">
-                <canvas id="catChart"></canvas>
-            </div>
-            <div class="section-header"><span class="section-title">Flux de Trésorerie</span></div>
-            <div class="card">
-                <canvas id="flowChart"></canvas>
-            </div>
+            <div class="card"><canvas id="catChart"></canvas></div>
+            <div class="section-header"><span class="section-title">Cashflow</span></div>
+            <div class="card"><canvas id="flowChart"></canvas></div>
         </div>
 
         <div id="settingsView" class="view">
-            <div class="section-header"><span class="section-title">Préférences</span></div>
+            <div class="section-header"><span class="section-title">Paramètres</span></div>
             
             <div class="card">
                 <div class="row-item">
-                    <div class="icon-box"><i class="fa-solid fa-earth-europe"></i></div>
-                    <div class="info-col"><span class="main-text">Devise principale</span></div>
-                    <select id="currencySelect" style="background:transparent; border:none; color:#fff; font-weight:600; outline:none;" onchange="changeCurrency(this.value)">
+                    <div class="icon-wrapper"><i class="fa-solid fa-globe"></i></div>
+                    <div class="item-details"><h3>Devise</h3><p>Monnaie principale</p></div>
+                    <select id="currencySelect" style="background:transparent; border:none; color:white; font-weight:700; outline:none;" onchange="changeCurrency(this.value)">
                         <option value="EUR">EUR (€)</option><option value="USD">USD ($)</option>
                     </select>
                 </div>
             </div>
 
             <div class="card">
-                <div class="row-item" onclick="exportData()" style="cursor:pointer">
-                    <div class="icon-box"><i class="fa-solid fa-cloud-arrow-down"></i></div>
-                    <div class="info-col"><span class="main-text">Sauvegarde</span><span class="sub-text">Exporter mes données</span></div>
+                <div class="row-item" onclick="exportData()">
+                    <div class="icon-wrapper"><i class="fa-solid fa-download"></i></div>
+                    <div class="item-details"><h3>Sauvegarde</h3><p>Exporter mes données</p></div>
                     <i class="fa-solid fa-chevron-right" style="opacity:0.3"></i>
                 </div>
-                <div class="row-item" onclick="document.getElementById('importFile').click()" style="cursor:pointer">
-                    <div class="icon-box"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                    <div class="info-col"><span class="main-text">Restauration</span><span class="sub-text">Importer un fichier</span></div>
+                <div class="row-item" onclick="document.getElementById('importFile').click()" style="border-top:1px solid var(--border); margin-top:10px; padding-top:15px;">
+                    <div class="icon-wrapper"><i class="fa-solid fa-upload"></i></div>
+                    <div class="item-details"><h3>Restauration</h3><p>Importer un fichier</p></div>
                     <i class="fa-solid fa-chevron-right" style="opacity:0.3"></i>
                     <input type="file" id="importFile" style="display:none" onchange="importData(event)">
                 </div>
             </div>
 
-            <div class="card" id="premiumBox" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(217, 119, 6, 0.1)); border-color: #F59E0B; text-align:center;">
-                <div style="font-size:32px; margin-bottom:10px;">👑</div>
-                <h3 style="color:#F59E0B; margin-bottom:5px;">Version PRO</h3>
-                <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">Supprimez les pubs et soutenez le projet.</p>
-                <button class="btn-large" style="background:#F59E0B; margin-top:0;" onclick="openModal('modalPay')">Débloquer (5,00€)</button>
-            </div>
-
-            <div style="text-align:center; margin-top:30px;">
-                <button onclick="resetApp()" style="color:var(--danger); background:none; border:none; font-weight:600; cursor:pointer; font-size:14px;">Réinitialiser l'application</button>
-                <div style="font-size:11px; color:var(--text-muted); margin-top:10px;">v11.0 Ultimate • Secure Local Storage</div>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="modalAccount" class="modal-overlay" onclick="closeModal(event, 'modalAccount')">
-        <div class="modal-sheet">
-            <div class="handle"></div>
-            <h2 style="margin-bottom:20px; font-size:20px;">Nouveau Compte</h2>
-            <div class="input-group">
-                <label class="label">Type</label>
-                <select id="accType" class="input"><option value="bank">Banque</option><option value="crypto">Crypto</option><option value="stock">Bourse</option><option value="cash">Cash</option></select>
-            </div>
-            <div class="input-group"><label class="label">Nom</label><input id="accName" type="text" class="input" placeholder="Ex: Boursorama"></div>
-            <div class="input-group"><label class="label">Solde Actuel</label><input id="accBal" type="number" step="0.01" class="input" placeholder="0.00"></div>
-            <button class="btn-large" onclick="addAccount()">Créer le compte</button>
-        </div>
-    </div>
-
-    <div id="modalTransac" class="modal-overlay" onclick="closeModal(event, 'modalTransac')">
-        <div class="modal-sheet">
-            <div class="handle"></div>
-            <h2 style="margin-bottom:20px; font-size:20px;">Nouvelle Transaction</h2>
-            <div class="input-group">
-                <div style="display:flex; background:var(--surface-light); border-radius:12px; padding:4px; margin-bottom:20px;">
-                    <div id="typeExp" onclick="setTxType('expense')" style="flex:1; text-align:center; padding:10px; border-radius:10px; background:var(--surface); color:#fff; font-weight:600; transition:0.2s;">Dépense</div>
-                    <div id="typeInc" onclick="setTxType('income')" style="flex:1; text-align:center; padding:10px; border-radius:10px; color:var(--text-muted); font-weight:600; transition:0.2s;">Revenu</div>
+            <div class="card" id="premiumBox" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(0,0,0,0)); border-color:var(--gold);">
+                <div style="text-align:center; padding:10px;">
+                    <i class="fa-solid fa-crown" style="font-size:32px; color:var(--gold); margin-bottom:10px;"></i>
+                    <h3 style="color:var(--gold)">Version PRO</h3>
+                    <p style="font-size:13px; color:var(--text-muted); margin:10px 0 20px;">Supprimez les pubs et soutenez le projet.</p>
+                    <button class="btn-block" style="background:var(--gold); color:black;" onclick="openSheet('pay')">Passer PRO (5,00€)</button>
                 </div>
             </div>
-            <div class="input-group"><label class="label">Montant</label><input id="tAmount" type="number" step="0.01" class="input" style="font-size:24px; font-weight:700;" placeholder="0.00"></div>
-            <div class="input-group"><label class="label">Catégorie</label><input id="tCat" type="text" class="input" list="cats" placeholder="Alimentation, Loyer..."><datalist id="cats"><option value="Alimentation"><option value="Logement"><option value="Transport"></datalist></div>
-            <button class="btn-large" onclick="addTransaction()">Valider</button>
+
+            <button onclick="resetApp()" style="width:100%; padding:20px; background:none; border:none; color:var(--danger); font-weight:600; margin-top:20px;">Réinitialiser l'application</button>
+            <div style="text-align:center; font-size:11px; color:var(--surface-highlight); margin-top:10px;">Build 12.0 • Ultra Secure</div>
+        </div>
+
+    </div>
+
+    <div id="sheet-acc" class="sheet-overlay" onclick="closeSheet(event, 'acc')">
+        <div class="sheet">
+            <div class="handle"></div><h2 style="margin-bottom:20px">Ajouter un compte</h2>
+            <div class="input-box"><label class="input-label">Type</label><select id="accType" class="input"><option value="bank">Banque</option><option value="crypto">Crypto</option><option value="stock">Bourse</option></select></div>
+            <div class="input-box"><label class="input-label">Nom</label><input id="accName" type="text" class="input" placeholder="Ex: Boursorama"></div>
+            <div class="input-box"><label class="input-label">Solde</label><input id="accBal" type="number" step="0.01" class="input" placeholder="0.00"></div>
+            <button class="btn-block" onclick="addAccount()">Ajouter</button>
         </div>
     </div>
 
-    <div id="modalBudget" class="modal-overlay" onclick="closeModal(event, 'modalBudget')">
-        <div class="modal-sheet">
-            <div class="handle"></div><h2 style="margin-bottom:20px;">Nouveau Budget</h2>
-            <div class="input-group"><label class="label">Catégorie</label><input id="bCat" type="text" class="input" list="cats"></div>
-            <div class="input-group"><label class="label">Limite Mensuelle (€)</label><input id="bLimit" type="number" class="input"></div>
-            <button class="btn-large" onclick="addBudget()">Définir</button>
+    <div id="sheet-tx" class="sheet-overlay" onclick="closeSheet(event, 'tx')">
+        <div class="sheet">
+            <div class="handle"></div><h2 style="margin-bottom:20px">Transaction</h2>
+            <div class="input-box">
+                <div style="display:flex; gap:10px;">
+                    <div id="btnExp" onclick="setTxType('expense')" style="flex:1; text-align:center; padding:15px; background:var(--surface-highlight); border-radius:12px; font-weight:600; cursor:pointer; border:1px solid var(--primary);">Dépense</div>
+                    <div id="btnInc" onclick="setTxType('income')" style="flex:1; text-align:center; padding:15px; background:var(--surface); border-radius:12px; font-weight:600; color:var(--text-muted); cursor:pointer;">Revenu</div>
+                </div>
+            </div>
+            <div class="input-box"><label class="input-label">Montant</label><input id="tAmount" type="number" class="input" style="font-size:24px; font-weight:700;" placeholder="0.00"></div>
+            <div class="input-box"><label class="input-label">Catégorie</label><input id="tCat" type="text" class="input" list="cats"><datalist id="cats"><option value="Alimentation"><option value="Loyer"><option value="Salaire"></datalist></div>
+            <button class="btn-block" onclick="addTransaction()">Valider</button>
         </div>
     </div>
 
-    <div id="modalGoal" class="modal-overlay" onclick="closeModal(event, 'modalGoal')">
-        <div class="modal-sheet">
-            <div class="handle"></div><h2 style="margin-bottom:20px;">Objectif</h2>
-            <div class="input-group"><label class="label">Nom du projet</label><input id="gName" type="text" class="input"></div>
-            <div class="input-group"><label class="label">Montant Cible (€)</label><input id="gTarget" type="number" class="input"></div>
-            <div class="input-group"><label class="label">Déjà Épargné (€)</label><input id="gCurrent" type="number" class="input"></div>
-            <button class="btn-large" onclick="addGoal()">Créer</button>
+    <div id="sheet-bud" class="sheet-overlay" onclick="closeSheet(event, 'bud')">
+        <div class="sheet">
+            <div class="handle"></div><h2 style="margin-bottom:20px">Budget</h2>
+            <div class="input-box"><label class="input-label">Catégorie</label><input id="bCat" type="text" class="input" list="cats"></div>
+            <div class="input-box"><label class="input-label">Limite Mensuelle</label><input id="bLimit" type="number" class="input"></div>
+            <button class="btn-block" onclick="addBudget()">Créer</button>
         </div>
     </div>
 
-    <div id="modalRecurring" class="modal-overlay" onclick="closeModal(event, 'modalRecurring')">
-        <div class="modal-sheet">
-            <div class="handle"></div><h2 style="margin-bottom:20px;">Récurrent</h2>
-            <div class="input-group"><label class="label">Nom</label><input id="rName" type="text" class="input" placeholder="Netflix..."></div>
-            <div class="input-group"><label class="label">Montant (€)</label><input id="rAmount" type="number" class="input"></div>
-            <div class="input-group"><label class="label">Type</label><select id="rType" class="input"><option value="expense">Dépense</option><option value="income">Revenu</option></select></div>
-            <button class="btn-large" onclick="addRecurring()">Ajouter</button>
+    <div id="sheet-goal" class="sheet-overlay" onclick="closeSheet(event, 'goal')">
+        <div class="sheet">
+            <div class="handle"></div><h2 style="margin-bottom:20px">Objectif</h2>
+            <div class="input-box"><label class="input-label">Nom</label><input id="gName" type="text" class="input" placeholder="Voyage..."></div>
+            <div class="input-box"><label class="input-label">Cible</label><input id="gTarget" type="number" class="input"></div>
+            <div class="input-box"><label class="input-label">Actuel</label><input id="gCurrent" type="number" class="input"></div>
+            <button class="btn-block" onclick="addGoal()">Fixer</button>
         </div>
     </div>
 
-    <div id="modalPay" class="modal-overlay" onclick="closeModal(event, 'modalPay')">
-        <div class="modal-sheet" style="text-align:center;">
-            <div class="handle"></div>
-            <div style="font-size:50px; margin-bottom:10px;">💎</div>
-            <h2 style="margin-bottom:10px;">Finance Pro</h2>
-            <p style="color:var(--text-muted); margin-bottom:30px;">Paiement sécurisé (Simulation Sandbox)</p>
-            <button class="btn-large" style="background:#000; color:#fff;" onclick="processPayment()"> Apple Pay</button>
+    <div id="sheet-rec" class="sheet-overlay" onclick="closeSheet(event, 'rec')">
+        <div class="sheet">
+            <div class="handle"></div><h2 style="margin-bottom:20px">Récurrent</h2>
+            <div class="input-box"><label class="input-label">Nom</label><input id="rName" type="text" class="input" placeholder="Netflix..."></div>
+            <div class="input-box"><label class="input-label">Montant</label><input id="rAmount" type="number" class="input"></div>
+            <div class="input-box"><label class="input-label">Type</label><select id="rType" class="input"><option value="expense">Dépense</option><option value="income">Revenu</option></select></div>
+            <button class="btn-block" onclick="addRecurring()">Ajouter</button>
+        </div>
+    </div>
+
+    <div id="sheet-pay" class="sheet-overlay" onclick="closeSheet(event, 'pay')">
+        <div class="sheet" style="text-align:center;">
+            <div class="handle"></div><i class="fa-solid fa-gem" style="font-size:40px; color:var(--gold); margin-bottom:20px;"></i>
+            <h2 style="margin-bottom:10px;">Finance Master PRO</h2>
+            <p style="color:var(--text-muted); margin-bottom:30px;">Débloquez toutes les fonctionnalités sans publicité.</p>
+            <button class="btn-block" style="background:white; color:black;" onclick="processPayment()"> Payer avec Apple Pay</button>
         </div>
     </div>
 
     <script>
-        const APP_VERSION = '11.0'; // Versioning pour auto-clean
-        
-        // Etat Global
-        let state = { 
-            accounts:[], transactions:[], budgets:[], goals:[], recurring:[], 
-            currency:'EUR', isPremium:false, txType:'expense' 
-        };
+        // --- LOGIQUE METIER ---
+        const VER = '12.0'; 
+        let state = { accounts:[], transactions:[], budgets:[], goals:[], recurring:[], currency:'EUR', isPremium:false, txType:'expense' };
         let marketData = [];
         let chartInstance = null;
         let flowChartInstance = null;
 
-        // Init
         window.onload = () => {
-            // Nettoyage si changement version majeure pour éviter bugs
-            if(localStorage.getItem('ver') !== APP_VERSION) {
+            if(localStorage.getItem('ver') !== VER) { 
                 if(!localStorage.getItem('state')) localStorage.clear();
-                localStorage.setItem('ver', APP_VERSION);
+                localStorage.setItem('ver', VER);
             }
             if(localStorage.getItem('state')) state = JSON.parse(localStorage.getItem('state'));
             
-            // Initialisation UI
-            document.getElementById('currencySelect').value = state.currency;
-            state.txType = 'expense'; // Reset default
-            
-            checkPremium();
-            updateUI();
-            processRecurring(); // Check dates
-            setTimeout(fetchMarket, 500); // Async load
+            initUI();
+            processRecurring();
+            setTimeout(fetchMarket, 500);
         };
 
         function save() { localStorage.setItem('state', JSON.stringify(state)); updateUI(); }
-        function toast(msg) { 
-            const t = document.getElementById('toast'); 
-            t.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--success)"></i> ${msg}`; 
-            t.style.transform = "translateX(-50%) translateY(0)"; 
-            setTimeout(()=>t.style.transform="translateX(-50%) translateY(-100px)", 3000); 
+        function initUI() {
+            document.getElementById('currencySelect').value = state.currency;
+            state.txType = 'expense';
+            checkPremium();
+            updateUI();
         }
         function fmt(n) { return (parseFloat(n)*(state.currency=='USD'?1.08:1)).toLocaleString('fr-FR',{minimumFractionDigits:2, maximumFractionDigits:2}) + (state.currency=='EUR'?' €':' $'); }
+        function toast(msg) { const t=document.getElementById('toast'); t.innerHTML=msg; t.style.transform="translateX(-50%) translateY(0)"; setTimeout(()=>t.style.transform="translateX(-50%) translateY(-100px)", 3000); }
 
-        // --- CORE UI ---
         function updateUI() {
-            // Header Balance
+            // Dashboard
             let total = state.accounts.reduce((s,a)=>s+parseFloat(a.balance),0);
             document.getElementById('totalBalance').innerText = fmt(total);
-            document.getElementById('balanceDetails').innerHTML = `<span style="color:var(--success)">+2.4%</span> cette semaine`;
+            document.getElementById('balanceDetails').innerHTML = `${state.accounts.length} comptes actifs`;
 
-            // Accounts
             const accList = document.getElementById('accountsList');
             accList.innerHTML = state.accounts.length ? state.accounts.map(a => `
-                <div class="card row-item" style="margin-bottom:12px; border:1px solid var(--border)">
-                    <div class="icon-box" style="color:${getColor(a.type)}"><i class="fa-solid ${getIcon(a.type)}"></i></div>
-                    <div class="info-col"><span class="main-text">${a.name}</span><span class="sub-text">${a.type.toUpperCase()}</span></div>
-                    <div class="amount-col"><span class="amount-text">${fmt(a.balance)}</span></div>
-                </div>`).join('') : '<div style="text-align:center; padding:30px; opacity:0.5; color:var(--text-muted)">Aucun compte</div>';
+                <div class="card row-item">
+                    <div class="icon-wrapper" style="color:${getColor(a.type)}"><i class="fa-solid ${getIcon(a.type)}"></i></div>
+                    <div class="item-details"><h3>${a.name}</h3><p>${a.type.toUpperCase()}</p></div>
+                    <div class="item-value"><h3>${fmt(a.balance)}</h3></div>
+                </div>`).join('') : '<div style="text-align:center; padding:30px; opacity:0.5;">Aucun compte</div>';
 
-            // Transactions
             const txList = document.getElementById('transactionsList');
             txList.innerHTML = state.transactions.length ? state.transactions.slice().reverse().slice(0,5).map(t => `
-                <div class="row-item">
-                    <div class="icon-box" style="background:transparent; border:none; width:30px; margin-right:10px;">
-                        <i class="fa-solid ${t.type=='income'?'fa-arrow-down-long':'fa-arrow-up-long'}" style="color:${t.type=='income'? 'var(--success)':'var(--text-main)'}"></i>
-                    </div>
-                    <div class="info-col"><span class="main-text" style="font-size:14px;">${t.category}</span><span class="sub-text">${new Date(t.date).toLocaleDateString()}</span></div>
-                    <div class="amount-col"><span class="amount-text ${t.type=='income'?'inc':'exp'}">${t.type=='income'?'+':'-'}${fmt(t.amount)}</span></div>
-                </div>`).join('') : '<div style="text-align:center; padding:20px; opacity:0.5;">Aucune transaction</div>';
+                <div class="row-item" style="padding:10px 0; border-bottom:1px solid var(--border)">
+                    <div class="icon-wrapper" style="width:40px; height:40px; font-size:16px; margin-right:12px; color:${t.type=='income'?'var(--success)':'var(--text-main)'}"><i class="fa-solid ${t.type=='income'?'fa-arrow-down':'fa-arrow-up'}"></i></div>
+                    <div class="item-details"><h3>${t.category}</h3><p>${new Date(t.date).toLocaleDateString()}</p></div>
+                    <div class="item-value"><h3 class="${t.type=='income'?'green-txt':'exp'}">${t.type=='income'?'+':'-'}${fmt(t.amount)}</h3></div>
+                </div>`).join('') : '<div style="text-align:center; padding:30px; opacity:0.5;">Aucune transaction</div>';
 
             // Budgets
             const bList = document.getElementById('budgetList');
             bList.innerHTML = state.budgets.map(b => {
                 let spent = state.transactions.filter(t=>t.type=='expense' && t.category==b.category).reduce((s,t)=>s+t.amount,0);
                 let pct = Math.min((spent/b.limit)*100, 100);
-                return `
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                        <span class="main-text">${b.category}</span>
-                        <span class="sub-text">${fmt(spent)} / ${fmt(b.limit)}</span>
-                    </div>
-                    <div class="progress-bg"><div class="progress-val" style="width:${pct}%; background:${pct>90?'var(--danger)':'var(--primary)'}"></div></div>
+                return `<div class="card">
+                    <div style="display:flex;justify-content:space-between"><span>${b.category}</span><span>${fmt(spent)} / ${fmt(b.limit)}</span></div>
+                    <div class="progress-bg"><div class="progress-bar" style="width:${pct}%; background:${pct>90?'var(--danger)':'var(--primary)'}"></div></div>
                 </div>`;
             }).join('');
 
@@ -473,59 +460,55 @@
             const gList = document.getElementById('goalsList');
             gList.innerHTML = state.goals.map(g => {
                 let pct = Math.min((g.current/g.target)*100, 100);
-                return `
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                        <span class="main-text">${g.name}</span>
-                        <span class="sub-text">${Math.round(pct)}%</span>
-                    </div>
-                    <div class="progress-bg"><div class="progress-val" style="width:${pct}%; background:var(--success)"></div></div>
-                    <div style="font-size:11px; color:var(--text-muted); margin-top:5px;">${fmt(g.current)} épargnés</div>
+                return `<div class="card">
+                    <div style="display:flex;justify-content:space-between"><span>${g.name}</span><span>${Math.round(pct)}%</span></div>
+                    <div class="progress-bg"><div class="progress-bar" style="width:${pct}%; background:var(--success)"></div></div>
+                    <div style="margin-top:5px; font-size:12px; color:var(--text-muted)">${fmt(g.current)} épargnés</div>
                 </div>`;
             }).join('');
 
             // Recurring
             const rList = document.getElementById('recurringList');
             let rTot = state.recurring.reduce((s,r)=>s+(r.type=='expense'?-parseFloat(r.amount):parseFloat(r.amount)),0);
-            document.getElementById('totalRecurring').innerText = (rTot>0?'+':'') + fmt(rTot);
+            document.getElementById('totalRec').innerText = (rTot>0?'+':'')+fmt(rTot);
             rList.innerHTML = state.recurring.map(r => `
-                <div class="row-item" style="padding:15px 0;">
-                    <div class="info-col"><span class="main-text">${r.name}</span><span class="sub-text">Mensuel</span></div>
-                    <div class="amount-col"><span class="amount-text ${r.type=='income'?'inc':'exp'}">${r.type=='income'?'+':'-'}${fmt(r.amount)}</span></div>
+                <div class="card row-item">
+                    <div class="item-details"><h3>${r.name}</h3></div>
+                    <div class="item-value"><h3 class="${r.type=='income'?'green-txt':'exp'}">${r.type=='income'?'+':'-'}${fmt(r.amount)}</h3></div>
                 </div>`).join('');
 
             updateStats();
         }
 
-        function getIcon(t) { return {bank:'fa-landmark', crypto:'fa-bitcoin', stock:'fa-chart-line', cash:'fa-money-bill'}[t] || 'fa-wallet'; }
+        function getIcon(t) { return {bank:'fa-building-columns', crypto:'fa-bitcoin', stock:'fa-arrow-trend-up'}[t] || 'fa-wallet'; }
         function getColor(t) { return {bank:'#3B82F6', crypto:'#8B5CF6', stock:'#10B981', cash:'#F59E0B'}[t] || '#fff'; }
 
         // --- ACTIONS ---
-        function setTxType(type) {
-            state.txType = type;
-            if(type=='expense') {
-                document.getElementById('typeExp').style.background='var(--surface)'; document.getElementById('typeExp').style.color='#fff';
-                document.getElementById('typeInc').style.background='transparent'; document.getElementById('typeInc').style.color='var(--text-muted)';
+        function setTxType(t) {
+            state.txType = t;
+            if(t=='expense') {
+                document.getElementById('btnExp').style.background = 'var(--surface-highlight)';
+                document.getElementById('btnExp').style.border = '1px solid var(--primary)';
+                document.getElementById('btnInc').style.background = 'var(--surface)';
+                document.getElementById('btnInc').style.border = 'none';
             } else {
-                document.getElementById('typeInc').style.background='var(--surface)'; document.getElementById('typeInc').style.color='#fff';
-                document.getElementById('typeExp').style.background='transparent'; document.getElementById('typeExp').style.color='var(--text-muted)';
+                document.getElementById('btnInc').style.background = 'var(--surface-highlight)';
+                document.getElementById('btnInc').style.border = '1px solid var(--success)';
+                document.getElementById('btnExp').style.background = 'var(--surface)';
+                document.getElementById('btnExp').style.border = 'none';
             }
         }
 
-        function addAccount() {
-            state.accounts.push({ name:val('accName'), type:val('accType'), balance:val('accBal') });
-            save(); closeModal(null,'modalAccount'); toast('Compte créé');
-        }
+        function addAccount() { state.accounts.push({name:val('accName'), type:val('accType'), balance:val('accBal')}); save(); closeSheet(null,'acc'); toast('Compte ajouté'); }
         function addTransaction() {
             let v = parseFloat(val('tAmount')); let t = state.txType;
-            state.transactions.push({ amount:v, type:t, category:val('tCat'), date:new Date() });
+            state.transactions.push({amount:v, type:t, category:val('tCat'), date:new Date()});
             if(state.accounts.length) state.accounts[0].balance = parseFloat(state.accounts[0].balance) + (t=='income'?v:-v);
-            save(); closeModal(null,'modalTransac'); toast('Transaction enregistrée');
+            save(); closeSheet(null,'tx'); toast('Enregistré');
         }
-        function addBudget() { state.budgets.push({category:val('bCat'), limit:val('bLimit')}); save(); closeModal(null,'modalBudget'); toast('Budget défini'); }
-        function addGoal() { state.goals.push({name:val('gName'), target:val('gTarget'), current:val('gCurrent')}); save(); closeModal(null,'modalGoal'); toast('Objectif ajouté'); }
-        function addRecurring() { state.recurring.push({name:val('rName'), amount:val('rAmount'), type:val('rType')}); save(); closeModal(null,'modalRecurring'); toast('Abonnement suivi'); }
-        
+        function addBudget() { state.budgets.push({category:val('bCat'), limit:val('bLimit')}); save(); closeSheet(null,'bud'); toast('Budget OK'); }
+        function addGoal() { state.goals.push({name:val('gName'), target:val('gTarget'), current:val('gCurrent')}); save(); closeSheet(null,'goal'); toast('Objectif OK'); }
+        function addRecurring() { state.recurring.push({name:val('rName'), amount:val('rAmount'), type:val('rType')}); save(); closeSheet(null,'rec'); toast('Récurrent OK'); }
         function val(id) { return document.getElementById(id).value; }
 
         // --- MARKET ---
@@ -534,16 +517,16 @@
                 const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin,ethereum,solana,binancecoin,ripple&sparkline=false');
                 marketData = await res.json();
                 renderMarket(marketData);
-            } catch(e) { document.getElementById('marketList').innerHTML='<div style="padding:20px;text-align:center;color:var(--text-muted)">Erreur chargement (API Limit)</div>'; }
+            } catch(e) { document.getElementById('marketList').innerHTML='<div style="padding:30px; text-align:center; color:var(--text-muted)">Erreur chargement API</div>'; }
         }
         function renderMarket(data) {
             document.getElementById('marketList').innerHTML = data.map(i => `
-                <div class="row-item" style="padding:15px;">
-                    <img src="${i.image}" style="width:32px; height:32px; border-radius:50%; margin-right:15px;">
-                    <div class="info-col"><span class="main-text">${i.symbol.toUpperCase()}</span><span class="sub-text">${i.name}</span></div>
-                    <div class="amount-col">
-                        <span class="amount-text">${fmt(i.current_price)}</span>
-                        <span class="percent-text" style="color:${i.price_change_percentage_24h>=0?'var(--success)':'var(--danger)'}">${i.price_change_percentage_24h.toFixed(2)}%</span>
+                <div class="card row-item">
+                    <img src="${i.image}" style="width:36px; height:36px; border-radius:50%; margin-right:15px;">
+                    <div class="item-details"><h3>${i.symbol.toUpperCase()}</h3><p>${i.name}</p></div>
+                    <div class="item-value">
+                        <h3>${fmt(i.current_price)}</h3>
+                        <p style="color:${i.price_change_percentage_24h>=0?'var(--success)':'var(--danger)'}">${i.price_change_percentage_24h.toFixed(2)}%</p>
                     </div>
                 </div>`).join('');
         }
@@ -562,58 +545,63 @@
                 type: 'doughnut',
                 data: {
                     labels: Object.keys(cats),
-                    datasets: [{ data: Object.values(cats), backgroundColor:['#5E5CE6','#F87171','#34D399','#FBBF24'], borderWidth:0 }]
+                    datasets: [{ data: Object.values(cats), backgroundColor:['#3B82F6','#F59E0B','#EF4444','#10B981','#8B5CF6'], borderWidth:0 }]
                 },
-                options: { plugins: { legend: {position:'right', labels:{color:'#94A3B8', boxWidth:10}} }, cutout:'75%' }
+                options: { plugins: { legend: {position:'right', labels:{color:'#94A3B8'}} }, cutout:'75%' }
             });
 
-            // Fake Cashflow Chart
             const ctx2 = document.getElementById('flowChart');
             if(flowChartInstance) flowChartInstance.destroy();
             flowChartInstance = new Chart(ctx2, {
                 type: 'bar',
                 data: {
-                    labels: ['Jan','Fev','Mar','Avr','Mai','Juin'],
-                    datasets: [{ label:'Cashflow', data:[1200,1500,900,1800,200,1100], backgroundColor:'#5E5CE6', borderRadius:4 }]
+                    labels: ['Jan','Fév','Mar','Avr','Mai','Juin'],
+                    datasets: [{ label:'Cashflow', data:[1200,1500,900,1800,200,1100], backgroundColor:'#3B82F6', borderRadius:4 }]
                 },
                 options: { plugins: { legend: {display:false} }, scales:{ x:{grid:{display:false}, ticks:{color:'#64748B'}}, y:{display:false} } }
             });
         }
 
-        // --- NAVIGATION & UTILS ---
+        // --- UTILS & PREMIUM ---
         function switchView(v, el) { 
             document.querySelectorAll('.view').forEach(e=>e.classList.remove('active')); document.getElementById(v+'View').classList.add('active');
             document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active')); if(el) el.classList.add('active');
         }
-        function openModal(m) { document.getElementById(m).classList.add('open'); }
-        function closeModal(e,m) { if(!e || e.target.id==m) document.getElementById(m).classList.remove('open'); }
+        function openSheet(m) { document.getElementById('sheet-'+m).classList.add('open'); }
+        function closeSheet(e,m) { if(!e || e.target.id=='sheet-'+m) document.getElementById('sheet-'+m).classList.remove('open'); }
         
-        // --- PREMIUM & SETTINGS ---
         function checkPremium() {
             if(state.isPremium) {
-                document.querySelectorAll('.ad-banner').forEach(e=>e.style.display='none');
-                document.getElementById('proBadge').style.display='inline-block';
-                document.getElementById('premiumBox').innerHTML='<h3 style="color:#F59E0B">Compte PRO Actif ✅</h3>';
+                document.querySelectorAll('.ad-container').forEach(e=>e.style.display='none');
+                document.querySelector('.is-pro')?.classList.add('is-pro');
+                document.querySelector('.pro-pill').style.display='inline-block';
+                document.getElementById('statusText').innerText = "Membre PRO";
+                document.querySelector('.pro-dot').style.background = 'var(--gold)';
+                document.querySelector('.pro-dot').style.boxShadow = '0 0 8px var(--gold)';
+                document.getElementById('premiumBox').innerHTML='<h3 style="color:var(--gold)">Compte PRO Actif ✅</h3>';
             } else {
-                document.querySelectorAll('.ad-banner').forEach(e=>e.style.display='block');
-                document.getElementById('proBadge').style.display='none';
+                document.querySelectorAll('.ad-container').forEach(e=>e.style.display='block');
             }
         }
-        function processPayment() { state.isPremium=true; save(); checkPremium(); closeModal(null,'modalPay'); toast('Bienvenue PRO !'); }
+        function processPayment() { state.isPremium=true; save(); checkPremium(); closeSheet(null,'pay'); toast('Bienvenue Club PRO 👑'); }
         function resetApp() { if(confirm('Tout effacer ?')){ localStorage.clear(); location.reload(); } }
-        function changeCurrency(v) { state.currency=v; save(); }
         
         function exportData() {
             const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
-            const node = document.createElement('a'); node.setAttribute("href", str); node.setAttribute("download", "finance_backup.json");
+            const node = document.createElement('a'); node.setAttribute("href", str); node.setAttribute("download", "backup.json");
             document.body.appendChild(node); node.click(); node.remove();
         }
         function importData(e) {
             const reader = new FileReader();
-            reader.onload = (event) => { try { state = JSON.parse(event.target.result); save(); toast('Données restaurées'); } catch(e) { alert('Fichier invalide'); } };
+            reader.onload = (event) => { try { state = JSON.parse(event.target.result); save(); toast('Import réussi'); } catch(e) { alert('Fichier invalide'); } };
             reader.readAsText(e.target.files[0]);
         }
-        function processRecurring() { /* Check dates simulation */ }
+        function processRecurring() {}
+        function changeCurrency(v) { state.currency=v; save(); }
+        function searchMarket(val) {
+            const q = val.toLowerCase();
+            renderMarket(marketData.filter(i => i.name.toLowerCase().includes(q) || i.symbol.toLowerCase().includes(q)));
+        }
 
     </script>
 </body>
