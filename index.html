@@ -8,479 +8,584 @@
     <meta name="theme-color" content="#000000">
     <title>Finance Master</title>
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIiwKICAic2hvcnRfbmFtZSI6ICJGaW5hbmNlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jb2xvciI6ICIjMDAwMDAwIiwKICAiaWNvbnMiOiBbXQp9">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIiwKICAic2hvcnRfbmFtZSI6ICJGaW5hbmNlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jb2xvciI6ICIjMDAwMDAwIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwcz6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMTA1NDMvMTA1NDMyNjMucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJtYXNrYWJsZSIKICAgIH0KICBdCn0=">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            --bg: #050505; --surface: #121212; --surface-highlight: #1E1E1E;
-            --primary: #3b82f6; --text-main: #ffffff; --text-muted: #888888;
-            --success: #22c55e; --danger: #ef4444; --gold: #F59E0B;
-            --radius: 18px; --border: 1px solid rgba(255,255,255,0.08);
+            /* --- FINARY-LIKE DESIGN SYSTEM --- */
+            --bg: #000000;
+            --surface: #0f0f11;
+            --surface-light: #1c1c1e;
+            --primary: #0a84ff; /* iOS Blue */
+            --accent: #5e5ce6;  /* Indigo */
+            --text-main: #ffffff;
+            --text-sec: #8e8e93;
+            --success: #30d158;
+            --danger: #ff453a;
+            --warning: #ffd60a;
+            --border: 1px solid rgba(255,255,255,0.08);
+            --radius: 16px;
+            --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
-            --font: 'Inter', sans-serif;
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; font-family: var(--font); }
-        body { background-color: var(--bg); color: var(--text-main); padding-bottom: calc(110px + var(--safe-bottom)); overflow-x: hidden; }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; font-family:'Inter', sans-serif; user-select:none; }
+        
+        body { background-color: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* HEADER */
-        .header { padding: 20px 24px 0; background: linear-gradient(180deg, #0a0a0a 0%, rgba(0,0,0,0) 100%); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); }
-        .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .brand { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; }
-        .pro-pill { background: linear-gradient(90deg, #F59E0B, #D97706); color: black; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: none; margin-left: 5px; }
-        .settings-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); border: var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: 0.2s; }
+        /* --- TYPOGRAPHY --- */
+        h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
+        .text-sm { font-size: 13px; color: var(--text-sec); font-weight: 500; }
+        .amount { font-family: 'Inter', sans-serif; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
 
-        .balance-section { text-align: center; padding: 20px 0 40px; }
-        .balance-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; letter-spacing: 1px; }
-        .balance-amount { font-size: 46px; font-weight: 800; letter-spacing: -2px; background: linear-gradient(to bottom, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .balance-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(34, 197, 94, 0.1); color: var(--success); border-radius: 20px; font-size: 13px; font-weight: 600; margin-top: 10px; border: 1px solid rgba(34, 197, 94, 0.2); }
+        /* --- SCROLLABLE AREA --- */
+        .app-content { 
+            flex: 1; overflow-y: auto; padding: 20px; padding-bottom: calc(100px + var(--safe-bottom));
+            scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+        }
 
-        /* LAYOUT */
-        .container { padding: 0 20px; }
-        .view { display: none; opacity: 0; transition: opacity 0.3s ease; }
-        .view.active { display: block; opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- HEADER --- */
+        .header { 
+            padding: calc(10px + var(--safe-top)) 20px 20px; 
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); 
+            position: sticky; top: 0; z-index: 50; 
+            border-bottom: var(--border);
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .logo { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+        .pill-pro { background: linear-gradient(135deg, #FFD60A, #FF9F0A); color: black; font-size: 10px; padding: 2px 8px; border-radius: 6px; font-weight: 800; box-shadow: 0 0 15px rgba(255, 214, 10, 0.3); }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px; }
-        .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+        .net-worth-card { text-align: center; padding: 10px 0; }
+        .nw-label { font-size: 11px; font-weight: 700; color: var(--text-sec); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .nw-value { font-size: 42px; font-weight: 800; letter-spacing: -1.5px; background: linear-gradient(180deg, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nw-trend { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(48, 209, 88, 0.15); color: var(--success); font-size: 13px; font-weight: 600; border-radius: 20px; margin-top: 10px; }
 
-        /* CARDS */
-        .card { background: var(--surface); border: var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; transition: transform 0.1s; position: relative; overflow: hidden; }
-        .card:active { transform: scale(0.98); background: var(--surface-light); }
+        /* --- CARDS & LISTS --- */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px; }
+        .card { background: var(--surface); border: var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; position: relative; overflow: hidden; }
+        
+        .list-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; }
+        .list-item:last-child { border-bottom: none; }
+        .list-item:active { opacity: 0.7; }
+        
+        .icon { width: 40px; height: 40px; border-radius: 12px; background: var(--surface-light); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 16px; color: #fff; }
+        .meta { flex: 1; }
+        .meta-title { font-size: 15px; font-weight: 600; color: #fff; display: block; margin-bottom: 2px; }
+        .meta-sub { font-size: 13px; color: var(--text-sec); }
+        .meta-end { text-align: right; }
+        .val { font-size: 15px; font-weight: 600; color: #fff; display: block; }
+        .pct { font-size: 12px; font-weight: 500; }
+        .green { color: var(--success); } .red { color: var(--danger); }
 
-        .row-item { display: flex; align-items: center; padding: 5px 0; }
-        .icon-box { width: 44px; height: 44px; border-radius: 14px; background: var(--surface-light); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 15px; border: var(--border); color: var(--text-main); }
-        .info-col { flex: 1; }
-        .main-text { font-size: 15px; font-weight: 600; display: block; margin-bottom: 3px; }
-        .sub-text { font-size: 12px; color: var(--text-muted); }
-        .amount-col { text-align: right; }
-        .amount-text { font-size: 15px; font-weight: 700; }
-        .green-txt { color: var(--success); } .red-txt { color: var(--text-main); }
+        /* --- BUTTONS --- */
+        .btn-mini { width: 32px; height: 32px; border-radius: 10px; background: var(--surface-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 14px; border: var(--border); }
+        .btn-main { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; margin-top: 20px; cursor: pointer; transition: 0.2s; }
+        .btn-main:active { transform: scale(0.97); }
 
-        /* BUTTONS */
-        .btn-add { width: 32px; height: 32px; border-radius: 10px; background: var(--primary); color: white; border: none; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
-        .btn-large { width: 100%; padding: 18px; background: var(--text-main); color: black; border-radius: 18px; font-weight: 700; border: none; font-size: 16px; margin-top: 20px; cursor: pointer; transition: 0.2s; }
-        .btn-large:active { transform: scale(0.97); opacity: 0.9; }
-        .btn-large.primary { background: var(--primary); color: white; }
-        .btn-bank-sync { width: 100%; padding: 14px; background: rgba(59, 130, 246, 0.1); color: var(--primary); border: 1px dashed var(--primary); border-radius: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; margin-bottom: 20px; }
+        /* --- NAVIGATION --- */
+        .nav-bar { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            background: rgba(10,10,10,0.95); backdrop-filter: blur(20px); 
+            border-top: var(--border); padding: 10px 20px calc(15px + var(--safe-bottom)); 
+            display: flex; justify-content: space-between; z-index: 100; 
+        }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sec); font-size: 10px; font-weight: 500; width: 60px; }
+        .nav-icon { font-size: 20px; margin-bottom: 2px; transition: 0.2s; }
+        .nav-btn.active { color: var(--primary); }
+        .nav-btn.active .nav-icon { transform: translateY(-2px); }
 
-        /* NAVIGATION */
-        .dock-wrapper { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; z-index: 100; }
-        .dock { background: rgba(22, 22, 22, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: 32px; padding: 12px 24px; display: flex; gap: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-        .nav-item { font-size: 22px; color: var(--text-muted); padding: 5px; position: relative; transition: 0.3s; cursor: pointer; }
-        .nav-item.active { color: var(--primary); transform: translateY(-4px); }
-        .nav-item.active::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); }
+        /* --- MODALS (Sheet) --- */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); 
+            z-index: 200; display: none; align-items: flex-end; opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.open { display: flex; opacity: 1; }
+        .sheet { 
+            background: #111; width: 100%; border-radius: 30px 30px 0 0; padding: 25px; 
+            transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1); 
+            border-top: 1px solid rgba(255,255,255,0.15); max-height: 90vh; overflow-y: auto;
+        }
+        .modal-overlay.open .sheet { transform: translateY(0); }
+        .sheet-handle { width: 40px; height: 4px; background: #333; border-radius: 2px; margin: 0 auto 25px; }
 
-        /* MARKET */
-        .chip-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; scrollbar-width: none; }
-        .chip { padding: 8px 18px; background: var(--surface); border: var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap; transition: 0.2s; }
-        .chip.active { background: var(--text-main); color: black; border-color: var(--text-main); }
-
-        /* MODALS */
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 200; display: none; align-items: flex-end; opacity: 0; transition: opacity 0.3s; }
-        .overlay.open { display: flex; opacity: 1; }
-        .sheet { background: #161616; width: 100%; border-radius: 32px 32px 0 0; padding: 30px 24px 50px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border-top: 1px solid rgba(255,255,255,0.1); max-height: 90vh; overflow-y: auto; }
-        .overlay.open .sheet { transform: translateY(0); }
-        .handle { width: 40px; height: 4px; background: #333; border-radius: 2px; margin: 0 auto 30px; }
-
-        /* ONBOARDING */
-        #modalOnboarding { z-index: 300; background: #000; }
-        #modalOnboarding .sheet { height: 100vh; border-radius: 0; padding-top: 100px; display: flex; flex-direction: column; justify-content: center; background: radial-gradient(circle at top right, #1e1b4b, #000); }
-
-        /* INPUTS */
+        /* --- INPUTS --- */
         .input-group { margin-bottom: 20px; }
-        .label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .input { width: 100%; padding: 18px; background: #000; border: 1px solid #333; border-radius: 16px; color: white; font-size: 16px; outline: none; transition: 0.2s; }
-        .input:focus { border-color: var(--primary); }
+        .label { display: block; font-size: 12px; font-weight: 600; color: var(--text-sec); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input { 
+            width: 100%; padding: 16px; background: var(--surface-light); border: 1px solid transparent; 
+            border-radius: 12px; color: white; font-size: 16px; outline: none; transition: 0.2s; 
+        }
+        .input:focus { border-color: var(--primary); background: #000; }
         select.input { appearance: none; }
 
-        /* SIMULATION BANK */
-        .bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .bank-option { background: var(--surface-light); padding: 15px; border-radius: 16px; text-align: center; cursor: pointer; border: 1px solid transparent; transition: 0.2s; }
-        .bank-option:active { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); }
-        .bank-logo { width: 40px; height: 40px; border-radius: 10px; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #000; font-size: 10px; }
+        /* --- ONBOARDING --- */
+        #onboarding { z-index: 999; background: #000; padding-top: 100px; text-align: center; }
+        #onboarding .sheet { height: 100%; border-radius: 0; display: flex; flex-direction: column; justify-content: center; background: radial-gradient(circle at 50% 0%, #1c1c1e 0%, #000 100%); }
 
-        /* EXTRAS */
-        .ad-banner { background: linear-gradient(135deg, #1A1A1A, #000); border: 1px dashed #333; border-radius: 16px; padding: 15px; text-align: center; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); }
-        .tx-toggle { display: flex; background: var(--surface-light); padding: 4px; border-radius: 14px; margin-bottom: 20px; }
-        .tx-option { flex: 1; text-align: center; padding: 12px; font-weight: 600; border-radius: 12px; color: var(--text-muted); transition: 0.2s; cursor: pointer; }
-        .tx-option.active { background: var(--surface); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .progress-bg { height: 6px; background: var(--surface-light); border-radius: 3px; overflow: hidden; margin-top: 12px; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; }
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .ad-space { background: #111; border: 1px dashed #333; padding: 15px; text-align: center; border-radius: 12px; margin-bottom: 20px; font-size: 12px; color: #555; }
+        
+        /* --- TOGGLE --- */
+        .toggle-row { display: flex; background: var(--surface-light); padding: 3px; border-radius: 10px; margin-bottom: 20px; }
+        .toggle-opt { flex: 1; text-align: center; padding: 10px; font-size: 14px; font-weight: 600; color: var(--text-sec); border-radius: 8px; transition: 0.2s; }
+        .toggle-opt.active { background: #333; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .toggle-opt.active.inc { color: var(--success); }
     </style>
 </head>
 <body>
 
-    <div id="toast" style="position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:white; color:black; padding:12px 24px; border-radius:30px; font-weight:700; z-index:999; transition:0.4s; box-shadow:0 10px 40px rgba(0,0,0,0.5);">Notification</div>
-
     <div class="header">
-        <div class="top-row">
-            <div class="brand">Finance Master <span id="proBadge" class="pro-pill">PRO</span></div>
-            <div class="settings-btn" onclick="switchView('settings')"><i class="fa-solid fa-sliders"></i></div>
+        <div class="header-top">
+            <div class="logo"><i class="fa-solid fa-layer-group" style="color:var(--primary)"></i> Finance Master</div>
+            <div class="pill-pro hidden" id="proBadge">PRO</div>
+            <div class="btn-mini" onclick="openModal('settings')"><i class="fa-solid fa-gear"></i></div>
         </div>
-        <div class="balance-section">
-            <div class="balance-label">PATRIMOINE NET</div>
-            <div class="balance-amount" id="totalBalance">0,00 €</div>
-            <div class="balance-pill" id="balanceDetails"><i class="fa-solid fa-chart-line"></i> ---</div>
-        </div>
-    </div>
-
-    <div class="dock-wrapper">
-        <div class="dock">
-            <div class="nav-item active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-house"></i></div>
-            <div class="nav-item" onclick="switchView('budget', this)"><i class="fa-solid fa-wallet"></i></div>
-            <div class="nav-item" onclick="switchView('market', this)"><i class="fa-solid fa-arrow-trend-up"></i></div>
-            <div class="nav-item" onclick="switchView('recurring', this)"><i class="fa-solid fa-rotate"></i></div>
-            <div class="nav-item" onclick="switchView('stats', this)"><i class="fa-solid fa-chart-pie"></i></div>
+        <div class="net-worth-card">
+            <div class="nw-label">Patrimoine Net</div>
+            <div class="nw-value amount" id="totalWealth">0 €</div>
+            <div class="nw-trend" id="trendBadge"><i class="fa-solid fa-arrow-trend-up"></i> +0.00%</div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="app-content" id="mainContainer">
         
-        <div id="dashboardView" class="view active">
-            <div class="ad-banner" id="ad1">Publicité</div>
-            
-            <div class="section-header">
-                <span class="section-title">Comptes</span>
-                <button class="btn-add" onclick="openSheet('acc')"><i class="fa-solid fa-plus"></i></button>
-            </div>
-            
-            <button class="btn-bank-sync" onclick="openSheet('bank')">
-                <i class="fa-solid fa-link"></i> Connecter une banque
-            </button>
+        <div id="view-home" class="view">
+            <div class="ad-space" id="ad1">Publicité</div>
 
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:30px;">
+                <button class="btn-main" style="margin:0; background:var(--surface-light); border:var(--border);" onclick="openModal('addAcc')">
+                    <i class="fa-solid fa-wallet" style="margin-right:8px; color:var(--primary)"></i> Nouveau Compte
+                </button>
+                <button class="btn-main" style="margin:0; background:var(--surface-light); border:var(--border);" onclick="openModal('addTx')">
+                    <i class="fa-solid fa-plus" style="margin-right:8px; color:var(--success)"></i> Transaction
+                </button>
+            </div>
+
+            <div class="section-header">
+                <h2>Mes Actifs</h2>
+            </div>
             <div id="accountsList"></div>
 
             <div class="section-header">
-                <span class="section-title">Activités</span>
-                <button class="btn-add" onclick="openSheet('tx')"><i class="fa-solid fa-plus"></i></button>
+                <h2>Historique</h2>
             </div>
-            <div id="transactionsList"></div>
+            <div id="txList" class="card" style="min-height:100px; display:flex; align-items:center; justify-content:center; color:var(--text-sec);">Aucune transaction</div>
         </div>
 
-        <div id="budgetView" class="view">
-            <div class="section-header"><span class="section-title">Budgets</span><button class="btn-add" onclick="openSheet('bud')"><i class="fa-solid fa-plus"></i></button></div>
-            <div id="budgetList"></div>
-            <div class="section-header"><span class="section-title">Objectifs</span><button class="btn-add" onclick="openSheet('goal')"><i class="fa-solid fa-plus"></i></button></div>
-            <div id="goalsList"></div>
-        </div>
-
-        <div id="marketView" class="view">
-            <div class="chip-scroll">
-                <div class="chip active" onclick="filterMarket('all', this)">Tout</div>
-                <div class="chip" onclick="filterMarket('crypto', this)">Cryptos</div>
-                <div class="chip" onclick="filterMarket('stock', this)">Actions</div>
+        <div id="view-market" class="view hidden">
+            <div class="input-group">
+                <input type="text" class="input" placeholder="Rechercher (Bitcoin, Apple...)" oninput="filterMarket(this.value)">
             </div>
-            <div class="ad-banner" id="ad2">Annonce Trading</div>
             <div id="marketList"></div>
         </div>
 
-        <div id="recurringView" class="view">
-            <div class="section-header"><span class="section-title">Abonnements</span><button class="btn-add" onclick="openSheet('rec')"><i class="fa-solid fa-plus"></i></button></div>
-            <div class="card" style="background:linear-gradient(135deg, var(--primary), #1e1b4b); border:none;">
-                <div style="font-size:12px; opacity:0.8; margin-bottom:5px;">TOTAL MENSUEL</div>
-                <div style="font-size:28px; font-weight:700;" id="totalRec">0 €</div>
-            </div>
-            <div id="recurringList"></div>
-        </div>
-
-        <div id="statsView" class="view">
-            <div class="section-header"><span class="section-title">Répartition</span></div>
-            <div class="card"><canvas id="catChart"></canvas></div>
-            <div class="section-header"><span class="section-title">Cashflow</span></div>
-            <div class="card"><canvas id="flowChart"></canvas></div>
-        </div>
-
-        <div id="settingsView" class="view">
-            <div class="section-header"><span class="section-title">Paramètres</span></div>
+        <div id="view-stats" class="view hidden">
             <div class="card">
-                <div class="row-item">
-                    <div class="icon-box"><i class="fa-solid fa-globe"></i></div>
-                    <div class="info-col"><span class="main-text">Devise</span></div>
-                    <select id="currencySelect" style="background:none; border:none; color:white; font-weight:700; outline:none;" onchange="changeCurrency(this.value)">
-                        <option value="EUR">EUR (€)</option><option value="USD">USD ($)</option>
-                    </select>
+                <h3 style="margin-bottom:15px">Répartition</h3>
+                <canvas id="chartDoughnut"></canvas>
+            </div>
+            <div class="card">
+                <h3 style="margin-bottom:15px">Evolution (6 mois)</h3>
+                <canvas id="chartLine"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-bar">
+        <div class="nav-btn active" onclick="switchView('home', this)">
+            <i class="fa-solid fa-house nav-icon"></i> Accueil
+        </div>
+        <div class="nav-btn" onclick="switchView('market', this)">
+            <i class="fa-solid fa-chart-line nav-icon"></i> Marché
+        </div>
+        <div class="nav-btn" onclick="switchView('stats', this)">
+            <i class="fa-solid fa-chart-pie nav-icon"></i> Stats
+        </div>
+    </div>
+
+    <div id="onboarding" class="modal-overlay">
+        <div class="sheet">
+            <i class="fa-solid fa-shield-halved" style="font-size:60px; color:var(--primary); margin-bottom:20px;"></i>
+            <h1 style="margin-bottom:10px;">Sécurisé & Privé</h1>
+            <p style="color:var(--text-sec); margin-bottom:40px; font-size:14px; line-height:1.5;">Vos données sont stockées uniquement sur votre appareil. Commencez par configurer votre solde principal.</p>
+            
+            <div class="input-group">
+                <label class="label">Nom de votre banque</label>
+                <input id="initName" type="text" class="input" placeholder="Ex: Boursorama, Revolut...">
+            </div>
+            <div class="input-group">
+                <label class="label">Solde actuel (€)</label>
+                <input id="initBal" type="number" class="input" placeholder="0.00" style="font-size:24px; font-weight:700;">
+            </div>
+            <button class="btn-main" onclick="finishOnboarding()">Accéder à l'app</button>
+        </div>
+    </div>
+
+    <div id="modal-addAcc" class="modal-overlay" onclick="closeModal(event, 'addAcc')">
+        <div class="sheet">
+            <div class="sheet-handle"></div>
+            <h2 style="margin-bottom:20px">Ajouter un actif</h2>
+            <div class="input-group">
+                <label class="label">Type</label>
+                <select id="accType" class="input">
+                    <option value="bank">Compte Bancaire</option>
+                    <option value="crypto">Portefeuille Crypto</option>
+                    <option value="stock">Compte Titres / PEA</option>
+                    <option value="real_estate">Immobilier</option>
+                </select>
+            </div>
+            <div class="input-group"><label class="label">Nom</label><input id="accName" type="text" class="input"></div>
+            <div class="input-group"><label class="label">Valeur (€)</label><input id="accBal" type="number" class="input"></div>
+            <button class="btn-main" onclick="addAccount()">Créer</button>
+        </div>
+    </div>
+
+    <div id="modal-addTx" class="modal-overlay" onclick="closeModal(event, 'addTx')">
+        <div class="sheet">
+            <div class="sheet-handle"></div>
+            <h2 style="margin-bottom:20px">Nouvelle opération</h2>
+            <div class="toggle-row">
+                <div class="toggle-opt active" id="opt-expense" onclick="setTxType('expense')">Dépense</div>
+                <div class="toggle-opt" id="opt-income" onclick="setTxType('income')">Revenu</div>
+            </div>
+            <div class="input-group"><label class="label">Montant</label><input id="txAmount" type="number" class="input" style="font-size:24px; font-weight:700;"></div>
+            <div class="input-group"><label class="label">Catégorie</label><input id="txCat" type="text" class="input" list="cats"><datalist id="cats"><option value="Courses"><option value="Loyer"><option value="Salaire"></datalist></div>
+            <button class="btn-main" onclick="addTransaction()">Valider</button>
+        </div>
+    </div>
+
+    <div id="modal-settings" class="modal-overlay" onclick="closeModal(event, 'settings')">
+        <div class="sheet">
+            <div class="sheet-handle"></div>
+            <h2 style="margin-bottom:20px">Paramètres</h2>
+            
+            <div class="card" onclick="triggerImport()" style="display:flex; align-items:center; padding:20px;">
+                <i class="fa-solid fa-file-import" style="margin-right:15px; font-size:20px;"></i>
+                <div>
+                    <span style="display:block; font-weight:600;">Importer CSV</span>
+                    <span class="text-sm">Relevé bancaire</span>
                 </div>
             </div>
-            <div class="card" id="premiumBox" style="background:linear-gradient(45deg, #1a1500, #000); border-color:#F59E0B; text-align:center;">
-                <h2 style="color:#F59E0B; margin-bottom:10px;">👑 Version PRO</h2>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Supprimez les pubs.</p>
-                <button class="btn-large" style="background:#F59E0B; color:black; margin-top:0;" onclick="openSheet('pay')">Débloquer (5,00€)</button>
+            <input type="file" id="fileInput" hidden onchange="processCSV(event)">
+
+            <div class="card" onclick="exportData()" style="display:flex; align-items:center; padding:20px;">
+                <i class="fa-solid fa-download" style="margin-right:15px; font-size:20px;"></i>
+                <div>
+                    <span style="display:block; font-weight:600;">Sauvegarde</span>
+                    <span class="text-sm">Exporter en JSON</span>
+                </div>
             </div>
-            <button onclick="resetApp()" style="width:100%; padding:20px; background:none; border:none; color:var(--danger); font-weight:700; margin-top:20px;">Réinitialiser l'application</button>
-        </div>
 
-    </div>
-
-    <div id="modalOnboarding" class="overlay">
-        <div class="sheet">
-            <div style="text-align:center; margin-bottom:40px;">
-                <i class="fa-solid fa-wallet" style="font-size:60px; color:var(--primary); margin-bottom:20px;"></i>
-                <h1>Bienvenue</h1>
-                <p style="color:var(--text-muted);">Ajoutez votre compte principal pour commencer.</p>
+            <div class="card" style="background:rgba(255,214,10,0.1); border-color:#FFD60A; text-align:center;">
+                <h3 style="color:#FFD60A; margin-bottom:5px;">Version PRO</h3>
+                <p class="text-sm" style="margin-bottom:15px;">Graphiques illimités & Sans Pubs</p>
+                <button class="btn-main" style="margin:0; background:#FFD60A; color:black;" onclick="activatePro()">Activer (Gratuit ajd)</button>
             </div>
-            <div class="input-group"><label class="label">Nom de la banque</label><input id="setupName" type="text" class="input" placeholder="Ex: Boursorama"></div>
-            <div class="input-group"><label class="label">Solde actuel</label><input id="setupBal" type="number" step="0.01" class="input" placeholder="0.00"></div>
-            <button class="btn-large primary" onclick="completeOnboarding()">Commencer</button>
-        </div>
-    </div>
 
-    <div id="sheet-bank" class="overlay" onclick="closeSheet(event, 'bank')">
-        <div class="sheet">
-            <div class="handle"></div><h2 style="margin-bottom:20px;">Choisir une banque</h2>
-            <div class="bank-grid">
-                <div class="bank-option" onclick="simulateSync('Revolut')"><div class="bank-logo" style="background:#000; color:#fff">R</div>Revolut</div>
-                <div class="bank-option" onclick="simulateSync('PayPal')"><div class="bank-logo" style="background:#003087; color:#fff">P</div>PayPal</div>
-                <div class="bank-option" onclick="simulateSync('Boursorama')"><div class="bank-logo" style="background:#d1005d; color:#fff">B</div>Bourso</div>
-                <div class="bank-option" onclick="simulateSync('Binance')"><div class="bank-logo" style="background:#F3BA2F; color:#000">B</div>Binance</div>
+            <div style="text-align:center; margin-top:30px;">
+                <button style="background:none; border:none; color:var(--danger); font-weight:600;" onclick="hardReset()">Réinitialiser l'application</button>
+                <div class="text-sm" style="margin-top:10px; opacity:0.5;">v20.0 • Build Final</div>
             </div>
         </div>
     </div>
-
-    <div id="sheet-acc" class="overlay" onclick="closeSheet(event, 'acc')"><div class="sheet"><div class="handle"></div><h2>Nouveau Compte</h2><div class="input-group"><label class="label">Type</label><select id="accType" class="input"><option value="bank">Banque</option><option value="crypto">Crypto</option><option value="stock">Bourse</option><option value="cash">Cash</option></select></div><div class="input-group"><label class="label">Nom</label><input id="accName" type="text" class="input"></div><div class="input-group"><label class="label">Solde</label><input id="accBal" type="number" class="input"></div><button class="btn-large primary" onclick="addAccount()">Ajouter</button></div></div>
-    <div id="sheet-tx" class="overlay" onclick="closeSheet(event, 'tx')"><div class="sheet"><div class="handle"></div><h2>Transaction</h2><div class="tx-toggle"><div id="optExp" class="tx-option active" onclick="setTxType('expense')">Dépense</div><div id="optInc" class="tx-option income" onclick="setTxType('income')">Revenu</div></div><div class="input-group"><label class="label">Montant</label><input id="tAmount" type="number" class="input" style="font-size:24px; font-weight:700;"></div><div class="input-group"><label class="label">Catégorie</label><input id="tCat" type="text" class="input" list="cats"><datalist id="cats"><option value="Alimentation"><option value="Transport"><option value="Loyer"></datalist></div><button class="btn-large primary" onclick="addTransaction()">Valider</button></div></div>
-    <div id="sheet-bud" class="overlay" onclick="closeSheet(event, 'bud')"><div class="sheet"><div class="handle"></div><h2>Budget</h2><div class="input-group"><label class="label">Catégorie</label><input id="bCat" type="text" class="input" list="cats"></div><div class="input-group"><label class="label">Limite</label><input id="bLimit" type="number" class="input"></div><button class="btn-large primary" onclick="addBudget()">Créer</button></div></div>
-    <div id="sheet-goal" class="overlay" onclick="closeSheet(event, 'goal')"><div class="sheet"><div class="handle"></div><h2>Objectif</h2><div class="input-group"><label class="label">Nom</label><input id="gName" type="text" class="input"></div><div class="input-group"><label class="label">Cible</label><input id="gTarget" type="number" class="input"></div><div class="input-group"><label class="label">Actuel</label><input id="gCurrent" type="number" class="input"></div><button class="btn-large primary" onclick="addGoal()">Fixer</button></div></div>
-    <div id="sheet-rec" class="overlay" onclick="closeSheet(event, 'rec')"><div class="sheet"><div class="handle"></div><h2>Récurrent</h2><div class="input-group"><label class="label">Nom</label><input id="rName" type="text" class="input"></div><div class="input-group"><label class="label">Montant</label><input id="rAmount" type="number" class="input"></div><div class="input-group"><label class="label">Type</label><select id="rType" class="input"><option value="expense">Dépense</option><option value="income">Revenu</option></select></div><button class="btn-large primary" onclick="addRecurring()">Ajouter</button></div></div>
-    <div id="sheet-pay" class="overlay" onclick="closeSheet(event, 'pay')"><div class="sheet" style="text-align:center;"><div class="handle"></div><h1 style="color:var(--gold)">PRO</h1><p style="color:var(--text-muted);">Supprimer les pubs</p><button class="btn-large" style="background:#fff; color:black;" onclick="processPayment()"> Payer</button></div></div>
 
     <script>
-        // CONFIG
-        const VER = '17.0'; 
-        let state = { accounts:[], transactions:[], budgets:[], goals:[], recurring:[], currency:'EUR', isPremium:false, setup:false };
+        // --- LOGIC CORE (V20) ---
+        const APP_KEY = 'finance_master_v20';
+        let db = { accounts: [], transactions: [], user: { pro: false, currency: 'EUR' } };
         let marketData = [];
-        let currentTxType = 'expense';
-        let chartInstance = null;
-        let flowChartInstance = null;
-
-        // DATA DEFAULT (Pour affichage immédiat)
-        const DEFAULT_MARKET = [
-            { id:'bitcoin', symbol:'btc', name:'Bitcoin', current_price:43500, price_change_percentage_24h:1.2, image:'https://assets.coingecko.com/coins/images/1/large/bitcoin.png' },
-            { id:'ethereum', symbol:'eth', name:'Ethereum', current_price:2300, price_change_percentage_24h:-0.5, image:'https://assets.coingecko.com/coins/images/279/large/ethereum.png' },
-            { id:'solana', symbol:'sol', name:'Solana', current_price:95, price_change_percentage_24h:5.4, image:'https://assets.coingecko.com/coins/images/4128/large/solana.png' },
-            { id:'apple', symbol:'aapl', name:'Apple Inc.', current_price:185.50, price_change_percentage_24h:0.8, image:'https://cdn-icons-png.flaticon.com/512/0/747.png' },
-            { id:'tesla', symbol:'tsla', name:'Tesla', current_price:215.00, price_change_percentage_24h:-2.4, image:'https://cdn-icons-png.flaticon.com/512/5969/5969049.png' },
-            { id:'lvmh', symbol:'mc', name:'LVMH', current_price:740, price_change_percentage_24h:1.2, image:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/LVMH_Logo.svg/1200px-LVMH_Logo.svg.png' }
+        let txType = 'expense';
+        
+        // MOCK MARKET DATA (Fail-safe)
+        const MOCK_MARKET = [
+            { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC', price: 42350, change: 1.25, img: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png' },
+            { id: 'ethereum', name: 'Ethereum', symbol: 'ETH', price: 2280, change: -0.45, img: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png' },
+            { id: 'solana', name: 'Solana', symbol: 'SOL', price: 98.50, change: 5.12, img: 'https://assets.coingecko.com/coins/images/4128/large/solana.png' },
+            { id: 'apple', name: 'Apple Inc', symbol: 'AAPL', price: 185.40, change: 0.80, img: 'https://cdn-icons-png.flaticon.com/512/732/732221.png' },
+            { id: 'tesla', name: 'Tesla', symbol: 'TSLA', price: 215.30, change: -2.10, img: 'https://cdn-icons-png.flaticon.com/512/5969/5969049.png' }
         ];
 
+        // INIT
         window.onload = () => {
-            // Nettoyage forcé des anciennes versions
-            if(localStorage.getItem('ver') !== VER) {
-                localStorage.clear(); 
-                localStorage.setItem('ver', VER);
-            }
-            if(localStorage.getItem('state')) state = JSON.parse(localStorage.getItem('state'));
-            
-            // Onboarding Check
-            if(!state.setup) {
-                document.getElementById('modalOnboarding').classList.add('open');
-                document.getElementById('modalOnboarding').style.display = 'flex';
+            // Check LocalStorage
+            const saved = localStorage.getItem(APP_KEY);
+            if (saved) {
+                db = JSON.parse(saved);
+                renderUI();
+                fetchMarket();
             } else {
-                initApp();
+                // Show Onboarding
+                document.getElementById('onboarding').classList.add('open');
             }
         };
 
-        function completeOnboarding() {
-            const name = document.getElementById('setupName').value;
-            const bal = parseFloat(document.getElementById('setupBal').value);
-            if(name && !isNaN(bal)) {
-                state.accounts.push({ id:Date.now(), name, type:'bank', balance:bal });
-                state.setup = true;
-                save();
-                // Fermeture forcée propre
-                const modal = document.getElementById('modalOnboarding');
-                modal.classList.remove('open');
-                setTimeout(() => modal.style.display = 'none', 300);
-                initApp();
-            } else { alert("Veuillez remplir les informations."); }
+        function saveData() {
+            localStorage.setItem(APP_KEY, JSON.stringify(db));
+            renderUI();
         }
 
-        function initApp() {
-            document.getElementById('currencySelect').value = state.currency;
-            checkPremium();
-            updateUI();
-            processRecurring();
-            loadMarket(); // Lance le chargement marché
-        }
-
-        function save() { localStorage.setItem('state', JSON.stringify(state)); updateUI(); }
-        function fmt(n) { return (parseFloat(n)*(state.currency=='USD'?1.08:1)).toLocaleString('fr-FR',{minimumFractionDigits:2, maximumFractionDigits:2}) + (state.currency=='EUR'?' €':' $'); }
-        function toast(msg) { const t=document.getElementById('toast'); t.innerText=msg; t.style.transform="translateX(-50%) translateY(0)"; setTimeout(()=>t.style.transform="translateX(-50%) translateY(-100px)", 3000); }
-
-        function updateUI() {
-            let total = state.accounts.reduce((s,a)=>s+parseFloat(a.balance),0);
-            document.getElementById('totalBalance').innerText = fmt(total);
-            document.getElementById('balanceDetails').innerHTML = `${state.accounts.length} comptes`;
-
-            document.getElementById('accountsList').innerHTML = state.accounts.length ? state.accounts.map(a => `
-                <div class="card row-item">
-                    <div class="icon-box" style="color:${getColor(a.type)}"><i class="fa-solid ${getIcon(a.type)}"></i></div>
-                    <div class="info-col"><span class="main-text">${a.name}</span><span class="sub-text">${a.type.toUpperCase()}</span></div>
-                    <div class="amount-col"><span class="amount-text">${fmt(a.balance)}</span></div>
-                </div>`).join('') : '<div style="text-align:center; opacity:0.5; padding:20px;">Aucun compte</div>';
-
-            document.getElementById('transactionsList').innerHTML = state.transactions.length ? state.transactions.slice().reverse().slice(0,5).map(t => `
-                <div class="row-item" style="border-bottom:1px solid rgba(255,255,255,0.05); padding:10px 0;">
-                    <div class="icon-box" style="width:40px; height:40px; font-size:16px; margin-right:12px;">
-                        <i class="fa-solid ${t.type=='income'?'fa-arrow-down':'fa-arrow-up'}" style="color:${t.type=='income'?'var(--success)':'var(--text-main)'}"></i>
-                    </div>
-                    <div class="info-col"><span class="main-text">${t.category}</span><span class="sub-text">${new Date(t.date).toLocaleDateString()}</span></div>
-                    <div class="amount-col"><span class="amount-text ${t.type=='income'?'green-txt':''}">${t.type=='income'?'+':'-'}${fmt(t.amount)}</span></div>
-                </div>`).join('') : '<div class="card" style="text-align:center; padding:30px; opacity:0.5;">Aucune activité</div>';
-
-            // Budgets & Goals rendering
-            document.getElementById('budgetList').innerHTML = state.budgets.map(b => {
-                let spent = state.transactions.filter(t=>t.type=='expense' && t.category==b.category).reduce((s,t)=>s+t.amount,0);
-                let pct = Math.min((spent/b.limit)*100, 100);
-                return `<div class="card"><div style="display:flex;justify-content:space-between"><span class="main-text">${b.category}</span><span class="sub-text">${fmt(spent)} / ${fmt(b.limit)}</span></div><div class="progress-bg"><div class="progress-fill" style="width:${pct}%; background:${pct>90?'var(--danger)':'var(--primary)'}"></div></div></div>`;
-            }).join('');
-
-            document.getElementById('goalsList').innerHTML = state.goals.map(g => {
-                let pct = Math.min((g.current/g.target)*100, 100);
-                return `<div class="card"><div style="display:flex;justify-content:space-between"><span class="main-text">${g.name}</span><span class="sub-text">${Math.round(pct)}%</span></div><div class="progress-bg"><div class="progress-fill" style="width:${pct}%; background:var(--success)"></div></div></div>`;
-            }).join('');
-
-            let rTot = state.recurring.reduce((s,r)=>s+(r.type=='expense'?-parseFloat(r.amount):parseFloat(r.amount)),0);
-            document.getElementById('totalRec').innerText = (rTot>0?'+':'')+fmt(rTot);
-            document.getElementById('recurringList').innerHTML = state.recurring.map(r => `<div class="card row-item"><div class="info-col"><span class="main-text">${r.name}</span></div><div class="amount-col"><span class="amount-text ${r.type=='income'?'green-txt':''}">${r.type=='income'?'+':'-'}${fmt(r.amount)}</span></div></div>`).join('');
-
-            drawStats();
-        }
-
-        function getIcon(t) { return {bank:'fa-landmark', crypto:'fa-bitcoin', stock:'fa-arrow-trend-up'}[t] || 'fa-wallet'; }
-        function getColor(t) { return {bank:'#3B82F6', crypto:'#8B5CF6', stock:'#10B981', cash:'#F59E0B'}[t] || '#fff'; }
-
-        // --- MARKET LOGIC (HYBRID) ---
-        async function loadMarket() {
-            // 1. Afficher les données par défaut immédiatement (pour éviter l'écran vide)
-            marketData = DEFAULT_MARKET; 
-            renderMarket(marketData);
-
-            try {
-                // 2. Tenter de mettre à jour via l'API
-                const controller = new AbortController();
-                const id = setTimeout(() => controller.abort(), 2000); // 2s timeout
-                const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin,ethereum,solana,binancecoin,ripple&sparkline=false', { signal: controller.signal });
-                clearTimeout(id);
-                
-                if(res.ok) {
-                    const apiData = await res.json();
-                    // Fusionner les données API (Crypto) avec les données Stock Mockées
-                    marketData = [...apiData, ...DEFAULT_MARKET.slice(3)]; 
-                    renderMarket(marketData);
-                }
-            } catch(e) {
-                console.log("Mode hors-ligne ou API limitée : utilisation données défaut.");
+        // ONBOARDING
+        function finishOnboarding() {
+            const name = document.getElementById('initName').value;
+            const bal = parseFloat(document.getElementById('initBal').value);
+            
+            if (name && !isNaN(bal)) {
+                db.accounts.push({ id: Date.now(), name: name, type: 'bank', balance: bal });
+                saveData();
+                document.getElementById('onboarding').classList.remove('open');
+                fetchMarket(); // Start fetching data
+            } else {
+                alert("Veuillez entrer des informations valides.");
             }
         }
 
-        function renderMarket(data) {
-            document.getElementById('marketList').innerHTML = data.map(i => `
-                <div class="card row-item">
-                    <img src="${i.image}" style="width:36px; height:36px; border-radius:50%; margin-right:15px;">
-                    <div class="info-col"><span class="main-text">${i.symbol.toUpperCase()}</span><span class="sub-text">${i.name}</span></div>
-                    <div class="amount-col">
-                        <span class="amount-text">${fmt(i.current_price)}</span>
-                        <span class="percent-text" style="color:${i.price_change_percentage_24h>=0?'var(--success)':'var(--danger)'}">${i.price_change_percentage_24h.toFixed(2)}%</span>
-                    </div>
-                </div>`).join('');
-        }
-        function filterMarket(t, el) { 
-            document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); el.classList.add('active');
-            if(t=='all') renderMarket(marketData);
-            if(t=='crypto') renderMarket(marketData.filter(i => !['aapl','tsla','mc'].includes(i.symbol)));
-            if(t=='stock') renderMarket(marketData.filter(i => ['aapl','tsla','mc'].includes(i.symbol)));
-        }
-
-        // --- ACTIONS ---
-        function setTxType(t) {
-            currentTxType = t;
-            document.getElementById('optExp').className = t=='expense'?'tx-option active':'tx-option';
-            document.getElementById('optInc').className = t=='income'?'tx-option income active':'tx-option income';
-        }
-        function addAccount() { state.accounts.push({ id:Date.now(), name:val('accName'), type:val('accType'), balance:parseFloat(val('accBal')) }); save(); closeSheet(null,'acc'); toast('Compte ajouté'); }
-        function addTransaction() {
-            let v = parseFloat(val('tAmount')); 
-            if(isNaN(v)) return;
-            state.transactions.push({ amount:v, type:currentTxType, category:val('tCat'), date:new Date() });
-            if(state.accounts.length > 0) state.accounts[0].balance += (currentTxType=='income' ? v : -v);
-            save(); closeSheet(null,'tx'); toast('Enregistré');
-        }
-        function addBudget() { state.budgets.push({category:val('bCat'), limit:val('bLimit')}); save(); closeSheet(null,'bud'); toast('Budget OK'); }
-        function addGoal() { state.goals.push({name:val('gName'), target:val('gTarget'), current:val('gCurrent')}); save(); closeSheet(null,'goal'); toast('Objectif OK'); }
-        function addRecurring() { state.recurring.push({name:val('rName'), amount:val('rAmount'), type:val('rType')}); save(); closeSheet(null,'rec'); toast('Récurrent OK'); }
-        function simulateSync(name) {
-            closeSheet(null, 'bank'); toast('Connexion à '+name+'...');
-            setTimeout(() => {
-                state.accounts.push({ id:Date.now(), name: name, type:'bank', balance: Math.floor(Math.random()*2000)+500 });
-                save(); toast('Compte connecté');
-            }, 1500);
-        }
-        function val(id) { return document.getElementById(id).value; }
-
-        // --- STATS ---
-        function drawStats() {
-            const ctx = document.getElementById('catChart');
-            const cats = {}; state.transactions.filter(t=>t.type=='expense').forEach(t => cats[t.category] = (cats[t.category]||0)+t.amount);
+        // UI RENDERER
+        function renderUI() {
+            // 1. Total Wealth
+            const total = db.accounts.reduce((sum, acc) => sum + acc.balance, 0);
+            document.getElementById('totalWealth').innerText = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total);
             
-            if(chartInstance) chartInstance.destroy();
-            chartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(cats),
-                    datasets: [{ data: Object.values(cats), backgroundColor:['#3B82F6','#F59E0B','#EF4444','#10B981','#8B5CF6'], borderWidth:0 }]
-                },
-                options: { plugins: { legend: {position:'right', labels:{color:'#94A3B8'}} }, cutout:'75%' }
-            });
+            // 2. Accounts List
+            const list = document.getElementById('accountsList');
+            if (db.accounts.length === 0) {
+                list.innerHTML = '<div style="text-align:center; color:var(--text-sec); padding:20px;">Aucun compte</div>';
+            } else {
+                list.innerHTML = db.accounts.map(acc => `
+                    <div class="card list-item">
+                        <div class="icon" style="color:${getColor(acc.type)}"><i class="fa-solid ${getIcon(acc.type)}"></i></div>
+                        <div class="meta">
+                            <span class="meta-title">${acc.name}</span>
+                            <span class="meta-sub">${getTypeName(acc.type)}</span>
+                        </div>
+                        <div class="val">${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(acc.balance)}</div>
+                    </div>
+                `).join('');
+            }
 
-            const ctx2 = document.getElementById('flowChart');
-            if(flowChartInstance) flowChartInstance.destroy();
-            flowChartInstance = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['J','F','M','A','M','J'],
-                    datasets: [{ label:'Flux', data:[1200,1500,900,1800,200,1100], backgroundColor:'#3B82F6', borderRadius:4 }]
-                },
-                options: { plugins: { legend: {display:false} }, scales:{ x:{ticks:{color:'#64748B'}}, y:{display:false} } }
-            });
+            // 3. Transactions List
+            const txContainer = document.getElementById('txList');
+            if (db.transactions.length === 0) {
+                txContainer.innerHTML = 'Aucune transaction récente';
+                txContainer.style.display = 'flex'; // Restore center alignment
+            } else {
+                txContainer.style.display = 'block'; // Allow list layout
+                txContainer.innerHTML = db.transactions.slice().reverse().slice(0, 5).map(tx => `
+                    <div class="list-item" style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <div class="icon" style="width:36px; height:36px; font-size:14px; margin-right:12px;">
+                            <i class="fa-solid ${tx.type === 'income' ? 'fa-arrow-down' : 'fa-arrow-up'}" style="color:${tx.type === 'income' ? 'var(--success)' : 'var(--text-main)'}"></i>
+                        </div>
+                        <div class="meta">
+                            <span class="meta-title" style="font-size:14px;">${tx.category}</span>
+                            <span class="meta-sub">${new Date(tx.date).toLocaleDateString()}</span>
+                        </div>
+                        <div class="val ${tx.type === 'income' ? 'green' : ''}">${tx.type === 'income' ? '+' : '-'}${tx.amount} €</div>
+                    </div>
+                `).join('');
+            }
+
+            // 4. Pro Status
+            if (db.user.pro) {
+                document.getElementById('ad1').style.display = 'none';
+                document.querySelector('.pill-pro').classList.remove('hidden');
+            }
         }
 
-        // --- UTILS ---
-        function switchView(v, el) { 
-            document.querySelectorAll('.view').forEach(e=>e.classList.remove('active')); document.getElementById(v+'View').classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active')); if(el) el.classList.add('active');
+        // MARKET ENGINE (FAIL-SAFE)
+        async function fetchMarket() {
+            const list = document.getElementById('marketList');
+            list.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-sec);">Chargement des cours...</div>';
+            
+            try {
+                // Try fetching CoinGecko
+                const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin,ethereum,solana,binancecoin,ripple,cardano&sparkline=false');
+                if (!res.ok) throw new Error("API Limit");
+                const data = await res.json();
+                
+                // Map API data to our format
+                marketData = data.map(c => ({
+                    id: c.id, name: c.name, symbol: c.symbol.toUpperCase(), 
+                    price: c.current_price, change: c.price_change_percentage_24h, img: c.image
+                }));
+                
+                // Add Stock Mocks
+                marketData.push(...MOCK_MARKET.slice(3)); // Add Apple & Tesla mocks
+                
+            } catch (e) {
+                console.warn("Market API failed, using Mocks.");
+                marketData = MOCK_MARKET;
+            }
+            
+            renderMarket(marketData);
         }
-        function openSheet(m) { document.getElementById('sheet-'+m).classList.add('open'); }
-        function closeSheet(e,m) { if(!e || e.target.id=='sheet-'+m) document.getElementById('sheet-'+m).classList.remove('open'); }
-        function checkPremium() {
-            if(state.isPremium) {
-                document.querySelectorAll('.ad-banner').forEach(e=>e.style.display='none');
-                document.querySelector('.pro-pill').style.display='inline-block';
-                document.getElementById('premiumBox').innerHTML='<h3 style="color:#F59E0B">PRO Actif ✅</h3>';
-            } else { document.querySelectorAll('.ad-banner').forEach(e=>e.style.display='block'); }
+
+        function renderMarket(data) {
+            const list = document.getElementById('marketList');
+            list.innerHTML = data.map(item => `
+                <div class="card list-item">
+                    <img src="${item.img}" style="width:36px; height:36px; border-radius:50%; margin-right:15px;">
+                    <div class="meta">
+                        <span class="meta-title">${item.symbol}</span>
+                        <span class="meta-sub">${item.name}</span>
+                    </div>
+                    <div class="meta-end">
+                        <span class="val">${item.price.toLocaleString()} €</span>
+                        <span class="pct ${item.change >= 0 ? 'green' : 'red'}">${item.change > 0 ? '+' : ''}${item.change.toFixed(2)}%</span>
+                    </div>
+                </div>
+            `).join('');
         }
-        function processPayment() { state.isPremium=true; save(); checkPremium(); closeSheet(null,'pay'); toast('Bienvenue PRO !'); }
-        function resetApp() { if(confirm('Tout effacer ?')){ localStorage.clear(); location.reload(); } }
-        function changeCurrency(v) { state.currency=v; save(); }
-        function processRecurring() {}
-        function searchMarket(val) {
-            const q = val.toLowerCase();
-            renderMarket(marketData.filter(i => i.name.toLowerCase().includes(q) || i.symbol.toLowerCase().includes(q)));
+
+        function filterMarket(query) {
+            const q = query.toLowerCase();
+            const filtered = marketData.filter(i => i.name.toLowerCase().includes(q) || i.symbol.toLowerCase().includes(q));
+            renderMarket(filtered);
         }
+
+        // ACTIONS
+        function addAccount() {
+            const name = document.getElementById('accName').value;
+            const bal = parseFloat(document.getElementById('accBal').value);
+            const type = document.getElementById('accType').value;
+            
+            if (name && !isNaN(bal)) {
+                db.accounts.push({ id: Date.now(), name, type, balance: bal });
+                saveData();
+                closeModal(null, 'addAcc');
+            }
+        }
+
+        function setTxType(type) {
+            txType = type;
+            document.getElementById('opt-expense').className = type === 'expense' ? 'toggle-opt active' : 'toggle-opt';
+            document.getElementById('opt-income').className = type === 'income' ? 'toggle-opt active inc' : 'toggle-opt';
+        }
+
+        function addTransaction() {
+            const amt = parseFloat(document.getElementById('txAmount').value);
+            const cat = document.getElementById('txCat').value;
+            
+            if (!isNaN(amt) && cat) {
+                db.transactions.push({ id: Date.now(), amount: amt, type: txType, category: cat, date: new Date() });
+                
+                // Update Balance of first account logic (Simplified for UX)
+                if (db.accounts.length > 0) {
+                    db.accounts[0].balance += (txType === 'income' ? amt : -amt);
+                }
+                
+                saveData();
+                closeModal(null, 'addTx');
+            }
+        }
+
+        // CSV IMPORT (Real Feature)
+        function triggerImport() { document.getElementById('fileInput').click(); }
+        function processCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const lines = e.target.result.split('\n');
+                let count = 0;
+                lines.forEach(line => {
+                    // Simple parser expecting: Date;Category;Amount
+                    const parts = line.split(';');
+                    if (parts.length >= 3) {
+                        const amt = parseFloat(parts[2]);
+                        if (!isNaN(amt)) {
+                            db.transactions.push({
+                                id: Date.now() + Math.random(),
+                                date: new Date(),
+                                category: parts[1] || 'Import',
+                                amount: Math.abs(amt),
+                                type: amt >= 0 ? 'income' : 'expense'
+                            });
+                            count++;
+                        }
+                    }
+                });
+                if(count > 0 && db.accounts.length > 0) {
+                    // Re-calculate balance based on import (Approximation)
+                    // In a real app, we would ask which account to link
+                }
+                saveData();
+                alert(count + " opérations importées !");
+            };
+            reader.readAsText(file);
+        }
+
+        // HELPERS
+        function getIcon(t) { return {bank:'fa-building-columns', crypto:'fa-bitcoin', stock:'fa-chart-line', real_estate:'fa-house'}[t] || 'fa-wallet'; }
+        function getColor(t) { return {bank:'#0a84ff', crypto:'#5e5ce6', stock:'#30d158', real_estate:'#ffd60a'}[t] || '#fff'; }
+        function getTypeName(t) { return {bank:'Banque', crypto:'Crypto', stock:'Bourse', real_estate:'Immobilier'}[t]; }
+
+        function switchView(viewId, el) {
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            document.getElementById('view-'+viewId).classList.remove('hidden');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            
+            if(viewId === 'stats') renderCharts();
+        }
+
+        function openModal(id) { document.getElementById('modal-'+id).classList.add('open'); }
+        function closeModal(e, id) { 
+            if (!e || e.target.id === 'modal-'+id) document.getElementById('modal-'+id).classList.remove('open'); 
+        }
+
+        function activatePro() {
+            db.user.pro = true;
+            saveData();
+            closeModal(null, 'settings');
+            alert("Mode PRO activé !");
+        }
+
+        function hardReset() {
+            if (confirm("Effacer toutes les données ?")) {
+                localStorage.removeItem(APP_KEY);
+                location.reload();
+            }
+        }
+
         function exportData() {
-            const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
-            const node = document.createElement('a'); node.setAttribute("href", str); node.setAttribute("download", "backup.json");
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+            const node = document.createElement('a');
+            node.setAttribute("href", dataStr);
+            node.setAttribute("download", "finance_backup.json");
             document.body.appendChild(node); node.click(); node.remove();
         }
-        function importData(e) {
-            const reader = new FileReader();
-            reader.onload = (event) => { try { state = JSON.parse(event.target.result); save(); toast('Import réussi'); } catch(e) { alert('Fichier invalide'); } };
-            reader.readAsText(e.target.files[0]);
+
+        // CHARTS
+        function renderCharts() {
+            const ctx1 = document.getElementById('chartDoughnut');
+            const expenses = {};
+            db.transactions.filter(t => t.type === 'expense').forEach(t => {
+                expenses[t.category] = (expenses[t.category] || 0) + t.amount;
+            });
+
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(expenses),
+                    datasets: [{
+                        data: Object.values(expenses),
+                        backgroundColor: ['#0a84ff', '#5e5ce6', '#30d158', '#ff453a', '#ffd60a'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { plugins: { legend: { position: 'right', labels: { color: '#888' } } } }
+            });
         }
+
     </script>
 </body>
 </html>
