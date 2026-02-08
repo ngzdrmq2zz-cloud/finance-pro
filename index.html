@@ -3,402 +3,591 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
     <title>Finance Master Pro</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIFBybyIsCiAgInNob3J0X25hbWUiOiAiRmluYW5jZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGYxNzJhIiwKICAidGhlbWVfY29sb3IiOiAiIzBmMTcyYSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJodHRwcz6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIFBybyIsCiAgInNob3J0X25hbWUiOiAiRmluYW5jZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGYxNzJhIiwKICAidGhlbWVfY29sb3IiOiAiIzFhMmUzYSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJodHRwcz6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #4f46e5; --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --text-light: #64748b;
-            --success: #10b981; --danger: #ef4444; --gold: #fbbf24;
-            --shadow: 0 4px 20px rgba(0,0,0,0.05); --radius: 20px;
+            /* Palette Premium */
+            --primary: #6366f1;
+            --primary-dark: #4338ca;
+            --secondary: #64748b;
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --surface-alt: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --safe-bottom: env(safe-area-inset-bottom);
         }
+
         @media (prefers-color-scheme: dark) {
-            :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --text-light: #94a3b8; }
+            :root {
+                --bg-body: #0f172a;
+                --surface: #1e293b;
+                --surface-alt: #334155;
+                --text-main: #f8fafc;
+                --text-muted: #94a3b8;
+                --primary: #818cf8;
+            }
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 100px; min-height: 100vh; }
+        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: calc(90px + var(--safe-bottom)); overflow-x: hidden; }
 
-        /* HEADER */
-        .header { background: linear-gradient(135deg, var(--primary), #4338ca); padding: 20px 20px 80px; color: white; border-radius: 0 0 30px 30px; box-shadow: 0 10px 30px -10px var(--primary); }
-        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .logo { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        .logo span { background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; font-size: 12px; }
-        .balance-card { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 24px; border-radius: 24px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); margin-top: -10px; }
-        .balance-title { font-size: 12px; text-transform: uppercase; opacity: 0.8; letter-spacing: 1px; font-weight: 600; }
-        .balance-amount { font-size: 36px; font-weight: 800; margin: 8px 0; letter-spacing: -1px; }
+        /* --- HEADER PREMIUM --- */
+        .header {
+            position: relative; height: 280px; 
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
+            padding: 20px; color: white; overflow: hidden;
+        }
+        .header::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
 
-        /* CONTAINER */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 10; margin-bottom: 20px; }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+        .btn-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); cursor: pointer; transition: 0.2s; }
+        .btn-icon:active { transform: scale(0.9); }
+
+        .balance-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative; z-index: 10;
+        }
+        .balance-label { font-size: 12px; font-weight: 600; text-transform: uppercase; opacity: 0.9; letter-spacing: 1px; }
+        .balance-amount { font-size: 38px; font-weight: 800; margin: 5px 0; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .balance-trend { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: rgba(255,255,255,0.2); border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+        /* --- LAYOUT --- */
         .container { padding: 0 20px; margin-top: 20px; }
-        .section-title { font-size: 18px; font-weight: 700; margin: 30px 0 15px; display: flex; justify-content: space-between; align-items: center; }
-        
-        .card { background: var(--card); padding: 16px; border-radius: 16px; box-shadow: var(--shadow); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
-        .card:active { transform: scale(0.98); }
-        
-        .btn-add { background: var(--text); color: var(--bg); width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border: none; }
-        
-        /* NAVIGATION */
-        .nav-bar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--card); padding: 12px 20px; border-radius: 24px; display: flex; justify-content: space-between; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.2); z-index: 100; border: 1px solid rgba(128,128,128,0.1); }
-        .nav-item { font-size: 24px; opacity: 0.5; transition: 0.3s; cursor: pointer; padding: 5px; }
-        .nav-item.active { opacity: 1; transform: translateY(-3px); border-bottom: 2px solid var(--primary); }
-
-        /* VUES */
-        .view { display: none; animation: fadeIn 0.3s ease; }
+        .view { display: none; animation: fadeIn 0.4s ease; }
         .view.active { display: block; }
-        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* PUBS & PREMIUM */
-        .ad-banner { background: var(--card); padding: 16px; border-radius: 16px; border: 1px dashed var(--text-light); text-align: center; margin-bottom: 20px; }
-        .premium-badge { display: none; background: var(--gold); color: black; font-weight: 800; padding: 2px 8px; border-radius: 10px; font-size: 10px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px; }
+        .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
+        
+        .card { background: var(--surface); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 12px; transition: 0.2s; position: relative; overflow: hidden; }
+        .card:active { transform: scale(0.98); }
 
-        /* MODALS */
-        .modal { position: fixed; top: 0; left: 0; w: 100%; h: 100%; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: flex-end; }
-        .modal.open { display: flex; }
-        .modal-content { background: var(--card); width: 100%; border-radius: 24px 24px 0 0; padding: 30px 20px 50px; animation: slideUp 0.3s; }
-        @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+        /* --- COMPONENTS --- */
+        .btn-add { background: var(--text-main); color: var(--bg-body); width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; border: none; }
         
-        .input { width: 100%; padding: 16px; background: var(--bg); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; margin-bottom: 12px; font-size: 16px; color: var(--text); outline: none; }
-        .btn-main { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; }
+        .list-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--surface-alt); }
+        .list-item:last-child { border-bottom: none; }
+        .item-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--surface-alt); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 15px; }
+        .item-content { flex: 1; }
+        .item-title { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+        .item-sub { font-size: 12px; color: var(--text-muted); }
+        .item-amount { font-weight: 700; font-size: 15px; }
+        .inc { color: var(--success); } .exp { color: var(--text-main); }
+
+        /* --- NAVIGATION --- */
+        .nav-dock {
+            position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px; padding: 12px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: var(--shadow-lg); z-index: 100; border: 1px solid rgba(128,128,128,0.1);
+        }
+        @media (prefers-color-scheme: dark) { .nav-dock { background: rgba(30, 41, 59, 0.9); } }
+
+        .nav-item { font-size: 20px; color: var(--text-muted); padding: 8px; border-radius: 12px; transition: 0.3s; position: relative; cursor: pointer; }
+        .nav-item.active { color: var(--primary); background: var(--surface-alt); transform: translateY(-5px); }
+        .nav-item.active::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--primary); border-radius: 50%; }
+
+        /* --- MARKET --- */
+        .market-chips { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; scrollbar-width: none; }
+        .chip { padding: 8px 16px; background: var(--surface); border: 1px solid var(--surface-alt); border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--text-muted); white-space: nowrap; transition: 0.2s; cursor: pointer; }
+        .chip.active { background: var(--text-main); color: var(--bg-body); border-color: var(--text-main); }
+
+        .coin-row { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--surface-alt); }
+        .coin-img { width: 36px; height: 36px; border-radius: 50%; margin-right: 12px; }
+        .chart-mini { width: 80px; height: 30px; margin-left: auto; margin-right: 15px; }
+
+        /* --- MODALS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: flex-end; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.3s; }
+        .modal-overlay.open { display: flex; opacity: 1; }
+        .modal-sheet { background: var(--surface); width: 100%; border-radius: 30px 30px 0 0; padding: 30px 20px 50px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; }
+        .modal-overlay.open .modal-sheet { transform: translateY(0); }
         
-        /* MARKET */
-        .chip-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
-        .chip { padding: 8px 16px; background: var(--card); border-radius: 20px; font-weight: 600; font-size: 13px; color: var(--text-light); border: 1px solid rgba(0,0,0,0.05); white-space: nowrap; }
-        .chip.active { background: var(--text); color: var(--bg); }
+        .handle { width: 40px; height: 5px; background: var(--surface-alt); border-radius: 10px; margin: 0 auto 20px; }
+        .input-group { margin-bottom: 15px; }
+        .label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; display: block; }
+        .input { width: 100%; padding: 16px; border-radius: 14px; background: var(--surface-alt); border: 2px solid transparent; font-size: 16px; color: var(--text-main); outline: none; transition: 0.2s; }
+        .input:focus { border-color: var(--primary); background: var(--surface); }
+        .btn-full { width: 100%; padding: 16px; background: var(--primary); color: white; font-weight: 700; border-radius: 14px; border: none; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
+
+        /* --- SKELETON & TOAST --- */
+        .skeleton { background: linear-gradient(90deg, var(--surface-alt) 25%, var(--bg-body) 50%, var(--surface-alt) 75%); background-size: 200% 100%; animation: load 1.5s infinite; border-radius: 6px; }
+        @keyframes load { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
+
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--text-main); color: var(--bg-body); padding: 12px 24px; border-radius: 30px; font-weight: 600; font-size: 14px; z-index: 300; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* --- ADS & PREMIUM --- */
+        .ad-box { background: var(--surface); border: 1px dashed var(--text-muted); border-radius: 16px; padding: 15px; text-align: center; margin-bottom: 20px; display: none; }
+        .premium-card { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fbbf24; padding: 20px; border-radius: 20px; margin-bottom: 20px; display: block; }
+        .premium-btn { background: #d97706; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; margin-top: 10px; cursor: pointer; width: 100%; }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
+    <div id="toast" class="toast"><i class="fa-solid fa-check-circle"></i> <span>Action effectuée</span></div>
+
     <div class="header">
-        <div class="top-nav">
-            <div class="logo">💰 Finance <span id="proBadge" class="premium-badge">PRO</span></div>
-            <div style="font-size:24px; cursor:pointer;" onclick="switchView('settings')">⚙️</div>
+        <div class="top-bar">
+            <div class="logo"><i class="fa-solid fa-wallet"></i> Finance Master <span id="badgePro" style="display:none; background:#fbbf24; color:black; font-size:10px; padding:2px 6px; border-radius:6px; margin-left:5px;">PRO</span></div>
+            <div class="btn-icon" onclick="switchView('settings')"><i class="fa-solid fa-gear"></i></div>
         </div>
         <div class="balance-card">
-            <div class="balance-title">Patrimoine Total</div>
-            <div class="balance-amount" id="totalBalance">0,00 €</div>
-            <div style="font-size:13px; opacity:0.8" id="balanceCount">Chargement...</div>
+            <div class="balance-label">Patrimoine Total</div>
+            <div class="balance-amount" id="totalBalance">---</div>
+            <div class="balance-trend" id="balanceCount"><i class="fa-solid fa-chart-line"></i> Chargement...</div>
         </div>
     </div>
 
-    <div class="nav-bar">
-        <div class="nav-item active" onclick="switchView('dashboard', this)">🏠</div>
-        <div class="nav-item" onclick="switchView('market', this)">📈</div>
-        <div class="nav-item" onclick="switchView('stats', this)">📊</div>
-        <div class="nav-item" onclick="switchView('settings', this)">⚙️</div>
+    <div class="nav-dock">
+        <div class="nav-item active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-house"></i></div>
+        <div class="nav-item" onclick="switchView('market', this)"><i class="fa-solid fa-arrow-trend-up"></i></div>
+        <div class="nav-item" onclick="switchView('stats', this)"><i class="fa-solid fa-chart-pie"></i></div>
+        <div class="nav-item" onclick="switchView('settings', this)"><i class="fa-solid fa-sliders"></i></div>
     </div>
 
     <div class="container">
         
         <div id="dashboardView" class="view active">
-            <div class="ad-banner" id="ad1">
-                <div style="font-size:10px; text-transform:uppercase; margin-bottom:5px; opacity:0.5">Publicité</div>
-                📢 Espace Pub Google Ads
+            <div class="ad-box" id="ad1">
+                <small style="text-transform:uppercase; color:gray; display:block; margin-bottom:5px;">Publicité</small>
+                <div style="height:50px; background:rgba(0,0,0,0.05); display:flex; align-items:center; justify-content:center; border-radius:8px;">Bannière Google Ads</div>
             </div>
 
-            <div class="section-title">
-                Comptes
-                <button class="btn-add" onclick="openModal('modalAccount')">+</button>
+            <div class="section-header">
+                <span class="section-title">Mes Comptes</span>
+                <button class="btn-add" onclick="openModal('modalAccount')"><i class="fa-solid fa-plus"></i></button>
             </div>
             <div id="accountsList">
-                <div style="text-align:center; padding:20px; opacity:0.5;">Aucun compte. Cliquez sur +</div>
+                <div style="text-align:center; padding:20px; opacity:0.5;">Aucun compte</div>
             </div>
 
-            <div class="section-title">
-                Transactions
-                <button class="btn-add" onclick="openModal('modalTransaction')">+</button>
+            <div class="section-header">
+                <span class="section-title">Transactions</span>
+                <button class="btn-add" onclick="openModal('modalTransac')"><i class="fa-solid fa-plus"></i></button>
             </div>
-            <div id="transactionsList"></div>
+            <div id="transactionsList">
+                <div class="card" style="justify-content:center; opacity:0.5;">Historique vide</div>
+            </div>
         </div>
 
         <div id="marketView" class="view">
-            <div class="chip-container">
+            <div class="market-chips">
                 <div class="chip active" onclick="filterMarket('all', this)">Tout</div>
                 <div class="chip" onclick="filterMarket('crypto', this)">Cryptos</div>
-                <div class="chip" onclick="filterMarket('stock', this)">Bourse</div>
+                <div class="chip" onclick="filterMarket('stock', this)">Actions</div>
             </div>
-            <div class="ad-banner" id="ad2">📢 Trading sans frais</div>
-            <div id="marketList">Chargement des cours...</div>
+            <div class="input-group">
+                <input type="text" class="input" placeholder="🔍 Rechercher (BTC, Apple...)" oninput="searchMarket(this.value)">
+            </div>
+            <div class="ad-box" id="ad2">📢 Trading sans frais</div>
+            <div id="marketList" class="card" style="display:block; min-height:200px;">
+                <div class="coin-row"><div class="coin-img skeleton"></div><div style="flex:1"><div class="skeleton" style="width:50%; height:14px; margin-bottom:5px"></div><div class="skeleton" style="width:30%; height:10px"></div></div></div>
+                <div class="coin-row"><div class="coin-img skeleton"></div><div style="flex:1"><div class="skeleton" style="width:50%; height:14px; margin-bottom:5px"></div><div class="skeleton" style="width:30%; height:10px"></div></div></div>
+            </div>
+            <div style="text-align:center; font-size:11px; opacity:0.5; margin-top:20px;">Données CoinGecko API & Mock Stocks</div>
         </div>
 
         <div id="statsView" class="view">
-            <div class="section-title">Analyse</div>
-            <div class="card" style="display:block">
-                <div id="chart" style="height:30px; background:#eee; border-radius:10px; display:flex; overflow:hidden;"></div>
-                <div id="legend" style="margin-top:10px; font-size:12px;"></div>
+            <div class="section-title">Analyse des Dépenses</div>
+            <div class="card" style="display:block;">
+                <canvas id="myChart" width="400" height="300"></canvas>
+            </div>
+            <div class="card">
+                <div style="width:100%; text-align:center;">
+                    <h3 id="statTotal">0 €</h3>
+                    <p style="font-size:12px; opacity:0.6;">Dépensé ce mois-ci</p>
+                </div>
             </div>
         </div>
 
         <div id="settingsView" class="view">
-            <div class="section-title">Préférences</div>
+            <div class="section-title">Réglages</div>
+            
             <div class="card">
-                <b>Devise</b>
-                <select id="currencySelect" style="border:none; background:transparent; font-weight:bold;" onchange="changeCurrency(this.value)">
-                    <option value="EUR">EUR (€)</option>
-                    <option value="USD">USD ($)</option>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <i class="fa-solid fa-coins" style="color:var(--primary)"></i> <b>Devise</b>
+                </div>
+                <select id="currencySelect" style="border:none; bg:transparent; font-weight:bold; outline:none;" onchange="changeCurrency(this.value)">
+                    <option value="EUR">EUR (€)</option><option value="USD">USD ($)</option><option value="GBP">GBP (£)</option>
                 </select>
             </div>
-            
-            <div class="card" id="premiumBox" style="background:#fffbeb; border:1px solid #fbbf24; display:block;">
-                <div style="color:#b45309; font-weight:800; font-size:18px;">💎 Mode PRO</div>
-                <div style="color:#b45309; font-size:13px; margin:5px 0 15px;">Supprimez les pubs à vie.</div>
-                <button class="btn-main" style="background:#d97706" onclick="openModal('modalPay')">Payer 5,00 €</button>
+
+            <div class="card" onclick="exportData()">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <i class="fa-solid fa-download" style="color:var(--text-main)"></i> <b>Exporter mes données</b>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="opacity:0.3"></i>
             </div>
 
-            <div style="text-align:center; margin-top:30px;">
-                <button onclick="hardReset()" style="color:red; background:none; border:none; font-weight:bold;">⚠️ Réinitialiser l'App</button>
+            <div id="premiumBox" class="premium-card">
+                <div style="color:#92400e; font-weight:800; font-size:18px;">💎 Mode Premium</div>
+                <div style="color:#b45309; font-size:13px; margin:10px 0;">Supprimez les pubs et soutenez le développeur.</div>
+                <button class="premium-btn" onclick="openModal('modalPay')">Débloquer (5,00€)</button>
+            </div>
+
+            <div style="text-align:center; margin-top:40px;">
+                <button onclick="resetApp()" style="color:var(--danger); background:none; border:none; font-weight:bold; cursor:pointer;">Réinitialiser l'application</button>
+                <div style="font-size:11px; opacity:0.4; margin-top:10px;">v7.0 Ultimate • Secure Storage</div>
             </div>
         </div>
 
     </div>
 
-    <div id="modalAccount" class="modal" onclick="closeModal(event, 'modalAccount')">
-        <div class="modal-content">
-            <h2>Nouveau Compte</h2><br>
-            <select id="accType" class="input"><option value="bank">🏦 Banque</option><option value="crypto">₿ Crypto</option><option value="stock">📈 Bourse</option></select>
-            <input type="text" id="accName" class="input" placeholder="Nom (ex: Boursorama)">
-            <input type="number" id="accBal" class="input" placeholder="Montant (ex: 1500)">
-            <button class="btn-main" onclick="addAccount()">Ajouter</button>
+    <div id="modalAccount" class="modal-overlay" onclick="clickOutside(event, 'modalAccount')">
+        <div class="modal-sheet">
+            <div class="handle"></div>
+            <h2 style="margin-bottom:20px;">Nouveau Compte</h2>
+            <form onsubmit="addAccount(event)">
+                <div class="input-group">
+                    <label class="label">Type</label>
+                    <select id="accType" class="input"><option value="bank">🏦 Banque</option><option value="crypto">₿ Crypto</option><option value="stock">📈 Bourse</option><option value="cash">💶 Espèces</option></select>
+                </div>
+                <div class="input-group"><label class="label">Nom</label><input id="accName" type="text" class="input" required placeholder="Ex: Boursorama"></div>
+                <div class="input-group"><label class="label">Solde</label><input id="accBal" type="number" step="0.01" class="input" required placeholder="0.00"></div>
+                <button class="btn-full">Ajouter</button>
+            </form>
         </div>
     </div>
 
-    <div id="modalTransaction" class="modal" onclick="closeModal(event, 'modalTransaction')">
-        <div class="modal-content">
-            <h2>Nouvelle Transaction</h2><br>
-            <select id="txType" class="input"><option value="expense">📉 Dépense</option><option value="income">📈 Revenu</option></select>
-            <input type="number" id="txAmount" class="input" placeholder="Montant">
-            <input type="text" id="txCat" class="input" placeholder="Catégorie (Loyer, Salaire...)">
-            <button class="btn-main" onclick="addTransaction()">Valider</button>
+    <div id="modalTransac" class="modal-overlay" onclick="clickOutside(event, 'modalTransac')">
+        <div class="modal-sheet">
+            <div class="handle"></div>
+            <h2 style="margin-bottom:20px;">Nouvelle Transaction</h2>
+            <form onsubmit="addTransaction(event)">
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <select id="tType" class="input"><option value="expense">📉 Dépense</option><option value="income">📈 Revenu</option></select>
+                </div>
+                <div class="input-group"><label class="label">Montant</label><input id="tAmount" type="number" step="0.01" class="input" style="font-size:20px; font-weight:bold;" required placeholder="0.00"></div>
+                <div class="input-group"><label class="label">Catégorie</label><input id="tCat" type="text" class="input" list="cats" required placeholder="Alimentation, Loyer..."><datalist id="cats"><option value="Alimentation"><option value="Transport"><option value="Loisirs"><option value="Salaire"></datalist></div>
+                <button class="btn-full">Valider</button>
+            </form>
         </div>
     </div>
 
-    <div id="modalPay" class="modal" onclick="closeModal(event, 'modalPay')">
-        <div class="modal-content" style="text-align:center;">
-            <div style="font-size:50px">💎</div>
+    <div id="modalPay" class="modal-overlay" onclick="clickOutside(event, 'modalPay')">
+        <div class="modal-sheet" style="text-align:center;">
+            <div class="handle"></div>
+            <i class="fa-solid fa-gem" style="font-size:50px; color:#fbbf24; margin-bottom:20px;"></i>
             <h2>Finance Master PRO</h2>
-            <p style="opacity:0.6; margin-bottom:20px;">Paiement sécurisé (Simulation)</p>
-            <button class="btn-main" style="background:black" onclick="processPayment()"> Apple Pay</button>
+            <p style="opacity:0.6; margin-bottom:30px;">Paiement unique ou abonnement (Simulation).</p>
+            <div id="loader" style="display:none; margin:20px auto; width:30px; height:30px; border:3px solid #eee; border-top-color:var(--primary); border-radius:50%; animation:load 1s infinite linear;"></div>
+            <button id="payBtn" class="btn-full" style="background:#000;" onclick="processPayment()"> Payer avec Apple Pay</button>
         </div>
     </div>
 
     <script>
-        // --- 1. SYSTEME DE DONNEES & NETTOYAGE AUTO ---
-        const APP_VERSION = '6.0'; // Nouvelle version
-        
+        // --- 1. CORE LOGIC ---
+        const APP_VERSION = '7.0';
         let state = { accounts: [], transactions: [], currency: 'EUR', isPremium: false };
+        const currencies = { 'EUR': {s:'€',r:1}, 'USD': {s:'$',r:1.08}, 'GBP': {s:'£',r:0.85} };
+        let marketData = [];
+        let chartInstance = null;
 
-        function initApp() {
-            // Vérification de version pour éviter le bug "Rien ne marche"
-            const storedVersion = localStorage.getItem('app_version');
-            if (storedVersion !== APP_VERSION) {
-                console.log("Mise à jour détectée : Nettoyage des anciennes données...");
-                localStorage.clear();
-                localStorage.setItem('app_version', APP_VERSION);
-            } else {
-                // Chargement normal
-                if(localStorage.getItem('state')) {
-                    try {
-                        state = JSON.parse(localStorage.getItem('state'));
-                    } catch(e) { localStorage.clear(); }
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auto-Clean old versions
+            if(localStorage.getItem('version') !== APP_VERSION) {
+                // Keep data if compatible, else clean
+                if(!localStorage.getItem('state')) localStorage.clear();
+                localStorage.setItem('version', APP_VERSION);
             }
-
-            // Initialisation UI
-            updateUI();
-            checkPremium();
+            // Load Data
+            const saved = localStorage.getItem('state');
+            if(saved) state = JSON.parse(saved);
             
-            // Chargement Marché (Async)
-            setTimeout(loadMarket, 500);
-        }
+            initUI();
+            setTimeout(fetchMarket, 500);
+        });
 
         function save() {
             localStorage.setItem('state', JSON.stringify(state));
-            updateUI();
+            updateDashboard();
         }
 
-        function updateUI() {
-            // Total
-            const total = state.accounts.reduce((sum, a) => sum + parseFloat(a.balance), 0);
-            document.getElementById('totalBalance').innerText = total.toLocaleString() + " " + (state.currency == 'EUR' ? '€' : '$');
-            document.getElementById('balanceCount').innerText = `${state.accounts.length} comptes actifs`;
+        function initUI() {
+            document.getElementById('currencySelect').value = state.currency;
+            checkPremium();
+            updateDashboard();
+        }
 
-            // Comptes
+        function fmt(n) { 
+            const c = currencies[state.currency]; 
+            return (n * c.r).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' ' + c.s; 
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${msg}`;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // --- 2. DASHBOARD ---
+        function updateDashboard() {
+            // Totals
+            const total = state.accounts.reduce((sum, a) => sum + parseFloat(a.balance), 0);
+            document.getElementById('totalBalance').innerText = fmt(total);
+            document.getElementById('balanceCount').innerHTML = `<i class="fa-solid fa-wallet"></i> ${state.accounts.length} comptes`;
+
+            // Accounts List
             const accList = document.getElementById('accountsList');
             if(state.accounts.length > 0) {
                 accList.innerHTML = state.accounts.map(a => `
-                    <div class="card">
-                        <div><b>${a.name}</b><br><small style="opacity:0.5">${a.type == 'crypto' ? 'Crypto' : 'Banque'}</small></div>
-                        <b>${parseFloat(a.balance).toLocaleString()}</b>
+                    <div class="card list-item">
+                        <div class="item-icon" style="color:${a.type=='crypto'?'#8b5cf6':'#4f46e5'}">
+                            <i class="fa-solid ${getIcon(a.type)}"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">${a.name}</div>
+                            <div class="item-sub">${a.type.toUpperCase()}</div>
+                        </div>
+                        <div class="item-amount">${fmt(a.balance)}</div>
                     </div>
                 `).join('');
-            }
+            } else { accList.innerHTML = '<div style="text-align:center; padding:20px; opacity:0.5;">Aucun compte</div>'; }
 
-            // Transactions
+            // Transactions List
             const txList = document.getElementById('transactionsList');
             if(state.transactions.length > 0) {
                 txList.innerHTML = state.transactions.slice().reverse().slice(0, 5).map(t => `
-                    <div class="card" style="padding:12px;">
-                        <div>${t.category}</div>
-                        <b style="color:${t.type=='income'?'#10b981':'#ef4444'}">${t.type=='income'?'+':'-'}${t.amount}</b>
+                    <div class="list-item">
+                        <div class="item-icon" style="background:${t.type=='income'?'#dcfce7':'#fee2e2'}; color:${t.type=='income'?'#16a34a':'#dc2626'}">
+                            <i class="fa-solid ${t.type=='income'?'fa-arrow-down':'fa-arrow-up'}"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">${t.category}</div>
+                            <div class="item-sub">${new Date(t.date).toLocaleDateString()}</div>
+                        </div>
+                        <div class="item-amount ${t.type=='income'?'inc':'exp'}">
+                            ${t.type=='income'?'+':'-'}${fmt(t.amount)}
+                        </div>
                     </div>
                 `).join('');
-            } else {
-                txList.innerHTML = '<div style="text-align:center; padding:20px; opacity:0.5">Aucune transaction</div>';
-            }
-
-            // Stats
-            renderStats();
+            } else { txList.innerHTML = '<div class="card" style="justify-content:center; opacity:0.5;">Historique vide</div>'; }
         }
 
-        // --- 2. FONCTIONNALITES ---
-        
-        function switchView(id, el) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(id + 'View').classList.add('active');
-            
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if(el) el.classList.add('active');
+        function getIcon(type) {
+            const icons = { bank: 'fa-building-columns', crypto: 'fa-bitcoin', stock: 'fa-arrow-trend-up', cash: 'fa-money-bill' };
+            return icons[type] || 'fa-wallet';
         }
 
-        function openModal(id) { document.getElementById(id).classList.add('open'); }
-        function closeModal(e, id) { if(e.target.id == id) document.getElementById(id).classList.remove('open'); }
-
-        function addAccount() {
-            const name = document.getElementById('accName').value;
-            const bal = document.getElementById('accBal').value;
-            if(name && bal) {
-                state.accounts.push({ name, balance: bal, type: document.getElementById('accType').value });
-                save();
-                document.getElementById('modalAccount').classList.remove('open');
-            }
-        }
-
-        function addTransaction() {
-            const amt = parseFloat(document.getElementById('txAmount').value);
-            const cat = document.getElementById('txCat').value;
-            const type = document.getElementById('txType').value;
-            
-            if(amt && cat) {
-                state.transactions.push({ amount: amt, category: cat, type, date: new Date() });
-                // Mise à jour du premier compte trouvé (Simplifié)
-                if(state.accounts.length > 0) {
-                    let acc = state.accounts[0];
-                    acc.balance = parseFloat(acc.balance) + (type == 'income' ? amt : -amt);
-                }
-                save();
-                document.getElementById('modalTransaction').classList.remove('open');
-            }
-        }
-
-        function checkPremium() {
-            const ads = document.querySelectorAll('.ad-banner');
-            const badge = document.getElementById('proBadge');
-            const box = document.getElementById('premiumBox');
-            
-            if(state.isPremium) {
-                ads.forEach(ad => ad.style.display = 'none');
-                badge.style.display = 'inline-block';
-                box.innerHTML = '<b style="color:green">✅ Compte PRO Actif</b>';
-                box.style.background = '#dcfce7';
-                box.style.borderColor = 'green';
-            } else {
-                ads.forEach(ad => ad.style.display = 'block');
-                badge.style.display = 'none';
-            }
-        }
-
-        function processPayment() {
-            if(confirm("Confirmer le paiement de 5,00 € ?")) {
-                state.isPremium = true;
-                save();
-                checkPremium();
-                document.getElementById('modalPay').classList.remove('open');
-                alert("Bienvenue membre PRO !");
-            }
-        }
-
-        function hardReset() {
-            if(confirm("Tout effacer ?")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        // --- 3. MARKET & STATS ---
-        
-        async function loadMarket() {
+        // --- 3. MARKET (Data & Mock) ---
+        async function fetchMarket() {
             try {
-                const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin,ethereum,solana&sparkline=false');
-                const data = await res.json();
-                state.marketData = data;
-                renderMarket(data);
-            } catch(e) {
-                document.getElementById('marketList').innerHTML = "Erreur chargement. Vérifiez connexion.";
-            }
+                // Real Crypto Data
+                const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin,ethereum,solana,binancecoin,ripple,cardano&sparkline=true');
+                const cryptos = await res.json();
+                
+                // Mock Stocks
+                const stocks = [
+                    { id: 'apple', symbol: 'aapl', name: 'Apple Inc.', current_price: 185.50, price_change_percentage_24h: 1.2, image: 'https://cdn-icons-png.flaticon.com/512/0/747.png', type: 'stock' },
+                    { id: 'tesla', symbol: 'tsla', name: 'Tesla', current_price: 215.00, price_change_percentage_24h: -2.4, image: 'https://cdn-icons-png.flaticon.com/512/5969/5969049.png', type: 'stock' },
+                    { id: 'nvidia', symbol: 'nvda', name: 'NVIDIA', current_price: 460.00, price_change_percentage_24h: 3.5, image: 'https://cdn-icons-png.flaticon.com/512/10543/10543263.png', type: 'stock' }
+                ];
+
+                marketData = [...cryptos.map(c=>({...c, type:'crypto'})), ...stocks];
+                renderMarket(marketData);
+            } catch(e) { document.getElementById('marketList').innerHTML = "Erreur chargement (API Rate Limit). Réessayez."; }
         }
 
         function renderMarket(data) {
-            document.getElementById('marketList').innerHTML = data.map(coin => `
-                <div class="card">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="${coin.image}" style="width:30px; height:30px; border-radius:50%">
-                        <b>${coin.name}</b>
+            const list = document.getElementById('marketList');
+            const c = currencies[state.currency];
+            list.innerHTML = data.map(i => {
+                const isUp = i.price_change_percentage_24h >= 0;
+                // Fake Chart SVG
+                const col = isUp ? '#10b981' : '#ef4444';
+                const svg = `<svg viewBox="0 0 100 30" width="80" height="30" fill="none"><polyline points="0,15 20,${isUp?25:5} 40,${isUp?5:25} 60,15 80,${isUp?0:30} 100,${isUp?5:25}" stroke="${col}" stroke-width="2"/></svg>`;
+                
+                return `
+                <div class="coin-row">
+                    <img src="${i.image}" class="coin-img">
+                    <div style="flex:1">
+                        <div style="font-weight:700;">${i.symbol.toUpperCase()}</div>
+                        <div style="font-size:12px; color:gray;">${i.name}</div>
                     </div>
-                    <div>
-                        <b>${coin.current_price} €</b>
-                        <div style="font-size:12px; color:${coin.price_change_percentage_24h >= 0 ? 'green' : 'red'}">
-                            ${coin.price_change_percentage_24h.toFixed(2)}%
-                        </div>
+                    <div class="chart-mini">${svg}</div>
+                    <div style="text-align:right;">
+                        <div style="font-weight:700;">${(i.current_price * c.r).toLocaleString(undefined,{maximumFractionDigits:2})} ${c.s}</div>
+                        <div style="font-size:11px; font-weight:700; color:${col}">${isUp?'+':''}${i.price_change_percentage_24h.toFixed(2)}%</div>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         function filterMarket(type, el) {
             document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
-            if(type == 'all' || type == 'crypto') renderMarket(state.marketData || []);
-            else document.getElementById('marketList').innerHTML = '<div class="card"><b>Apple (AAPL)</b> 185.00 $</div>'; // Simulation Stock
+            if(type === 'all') renderMarket(marketData);
+            else renderMarket(marketData.filter(i => i.type === type));
         }
 
-        function renderStats() {
-            const chart = document.getElementById('chart');
-            const legend = document.getElementById('legend');
-            
-            // Calcul simple
-            let totals = {};
+        function searchMarket(val) {
+            const q = val.toLowerCase();
+            renderMarket(marketData.filter(i => i.name.toLowerCase().includes(q) || i.symbol.toLowerCase().includes(q)));
+        }
+
+        // --- 4. STATS (Chart.js) ---
+        function updateStats() {
+            const ctx = document.getElementById('myChart');
+            if(!ctx) return;
+
+            // Prepare Data
+            const cats = {};
             let totalExp = 0;
-            state.transactions.filter(t => t.type == 'expense').forEach(t => {
-                totals[t.category] = (totals[t.category] || 0) + t.amount;
+            state.transactions.filter(t => t.type === 'expense').forEach(t => {
+                cats[t.category] = (cats[t.category] || 0) + t.amount;
                 totalExp += t.amount;
             });
 
-            if(totalExp == 0) {
-                chart.innerHTML = '';
-                legend.innerHTML = 'Pas assez de données';
-                return;
-            }
+            document.getElementById('statTotal').innerText = fmt(totalExp);
 
-            const colors = ['#ef4444', '#f59e0b', '#3b82f6'];
-            let html = '';
-            let legHtml = '';
-            let i = 0;
+            const labels = Object.keys(cats);
+            const data = Object.values(cats);
+            
+            if(chartInstance) chartInstance.destroy(); // Reset old chart
 
-            for(let cat in totals) {
-                let pct = (totals[cat] / totalExp) * 100;
-                let color = colors[i % 3];
-                html += `<div style="width:${pct}%; background:${color}"></div>`;
-                legHtml += `<span style="margin-right:10px; color:${color}">● ${cat} ${Math.round(pct)}%</span>`;
-                i++;
-            }
-            chart.innerHTML = html;
-            legend.innerHTML = legHtml;
+            if(labels.length === 0) return; // No data
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#4f46e5', '#ef4444', '#f59e0b', '#10b981', '#06b6d4'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true } } }
+                }
+            });
         }
 
-        // Lancement
-        initApp();
+        // --- 5. INTERACTIONS ---
+        function switchView(id, el) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id + 'View').classList.add('active');
+            el.classList.add('active');
+            if(id === 'stats') updateStats();
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('open'); }
+        function clickOutside(e, id) { if(e.target.id === id) document.getElementById(id).classList.remove('open'); }
+        
+        function addAccount(e) {
+            e.preventDefault();
+            const name = document.getElementById('accName').value;
+            const bal = parseFloat(document.getElementById('accBal').value);
+            const type = document.getElementById('accType').value;
+            state.accounts.push({ name, balance: bal, type });
+            save();
+            document.getElementById('modalAccount').classList.remove('open');
+            e.target.reset();
+            showToast('Compte ajouté');
+        }
+
+        function addTransaction(e) {
+            e.preventDefault();
+            const amt = parseFloat(document.getElementById('tAmount').value);
+            const type = document.getElementById('tType').value;
+            const cat = document.getElementById('tCat').value;
+            
+            state.transactions.push({ amount: amt, type, category: cat, date: new Date() });
+            
+            // Logic to update first account (Simplified)
+            if(state.accounts.length > 0) {
+                if(type === 'income') state.accounts[0].balance += amt;
+                else state.accounts[0].balance -= amt;
+            }
+            
+            save();
+            document.getElementById('modalTransac').classList.remove('open');
+            e.target.reset();
+            showToast('Transaction enregistrée');
+        }
+
+        function changeCurrency(val) {
+            state.currency = val;
+            save();
+            if(marketData.length) renderMarket(marketData);
+        }
+
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "finance_backup.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function resetApp() {
+            if(confirm("Tout supprimer ?")) { localStorage.clear(); location.reload(); }
+        }
+
+        // --- 6. PREMIUM ---
+        function checkPremium() {
+            if(state.isPremium) {
+                document.querySelectorAll('.ad-box').forEach(el => el.classList.add('hidden'));
+                document.getElementById('badgePro').style.display = 'inline-block';
+                document.getElementById('premiumBox').innerHTML = '<div style="text-align:center; color:green; font-weight:700;">✨ Vous êtes Premium</div>';
+                document.getElementById('premiumBox').style.background = '#dcfce7';
+                document.getElementById('premiumBox').style.border = '1px solid green';
+            }
+        }
+
+        function processPayment() {
+            document.getElementById('payBtn').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+            setTimeout(() => {
+                state.isPremium = true;
+                save();
+                checkPremium();
+                document.getElementById('modalPay').classList.remove('open');
+                document.getElementById('payBtn').style.display = 'block';
+                document.getElementById('loader').style.display = 'none';
+                showToast('Bienvenue dans le club PRO !');
+                // Confetti effect could be added here
+            }, 2000);
+        }
 
     </script>
 </body>
