@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#000000">
     <title>Finance Master</title>
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIFBybyIsCiAgInNob3J0X25hbWUiOiAiRmluYW5jZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDAwMDAwIiwKICAidGhlbWVfY29sb3IiOiAiIzAwMDAwMCIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbXQp9">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIiwKICAic2hvcnRfbmFtZSI6ICJGaW5hbmNlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jb2xvciI6ICIjMDAwMDAwIiwKICAiaWNvbnMiOiBbXQp9">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -16,63 +16,111 @@
 
     <style>
         :root {
-            --bg: #050505; --surface: #121212; --surface-highlight: #1E1E1E;
-            --primary: #3b82f6; --accent: #8b5cf6; --text-main: #ffffff; --text-muted: #888888;
-            --success: #22c55e; --danger: #ef4444; --gold: #F59E0B;
-            --radius: 20px; --border: 1px solid rgba(255,255,255,0.08);
+            /* THEME FINARY / REVOLUT DARK */
+            --bg: #050505;
+            --surface: #111111;
+            --surface-light: #1E1E1E;
+            --primary: #3b82f6; 
+            --accent: #8b5cf6;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --gold: #F59E0B;
+            --radius: 18px;
+            --border: 1px solid rgba(255,255,255,0.08);
             --safe-bottom: env(safe-area-inset-bottom);
             --font: 'Inter', sans-serif;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; font-family: var(--font); }
-        body { background-color: var(--bg); color: var(--text-main); padding-bottom: calc(110px + var(--safe-bottom)); overflow-x: hidden; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding-bottom: calc(110px + var(--safe-bottom));
+            overflow-x: hidden;
+        }
 
         /* HEADER */
-        .header { padding: 20px 24px 0; background: linear-gradient(180deg, #0a0a0a 0%, rgba(0,0,0,0) 100%); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); }
+        .header {
+            padding: 20px 24px 0;
+            background: linear-gradient(180deg, #0a0a0a 0%, rgba(0,0,0,0) 100%);
+            position: sticky; top: 0; z-index: 50;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        }
         .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .brand { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; }
-        .pro-pill { background: linear-gradient(90deg, #F59E0B, #D97706); color: black; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: none; margin-left: 5px; }
-        .settings-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); border: var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-main); }
+        .brand { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+        .pro-pill { background: linear-gradient(90deg, #F59E0B, #D97706); color: black; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: none; box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+        .settings-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); border: var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-main); font-size: 16px; transition: 0.2s; }
+        .settings-btn:active { transform: scale(0.9); }
 
-        .balance-section { text-align: center; padding: 20px 0 40px; }
-        .balance-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; letter-spacing: 1px; }
-        .balance-amount { font-size: 46px; font-weight: 800; letter-spacing: -2px; background: linear-gradient(to bottom, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .balance-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(34, 197, 94, 0.1); color: var(--success); border-radius: 20px; font-size: 13px; font-weight: 600; margin-top: 10px; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .balance-section { text-align: center; padding: 20px 0 40px; animation: fadeIn 0.8s ease; }
+        .balance-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; letter-spacing: 1px; }
+        .balance-amount { font-size: 42px; font-weight: 800; letter-spacing: -1.5px; background: linear-gradient(to bottom, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .balance-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(34, 197, 94, 0.1); color: var(--success); border-radius: 20px; font-size: 13px; font-weight: 600; margin-top: 12px; border: 1px solid rgba(34, 197, 94, 0.2); }
 
-        /* CONTAINER & VIEW */
+        /* LAYOUT */
         .container { padding: 0 20px; }
         .view { display: none; opacity: 0; transition: opacity 0.3s ease; }
         .view.active { display: block; opacity: 1; }
-        
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px; }
-        .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CARDS & LISTS */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px; }
+        .section-title { font-size: 19px; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+
+        /* CARDS */
         .card { background: var(--surface); border: var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; transition: transform 0.1s; position: relative; overflow: hidden; }
         .card:active { transform: scale(0.98); background: var(--surface-light); }
 
         .row-item { display: flex; align-items: center; padding: 5px 0; }
-        .icon-box { width: 44px; height: 44px; border-radius: 14px; background: var(--surface-light); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 15px; border: var(--border); color: var(--text-main); }
+        .icon-box { 
+            width: 44px; height: 44px; border-radius: 14px; background: var(--surface-light); 
+            display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 15px; 
+            border: var(--border); color: var(--text-main); 
+        }
         .info-col { flex: 1; }
-        .main-text { font-size: 15px; font-weight: 600; display: block; margin-bottom: 3px; }
-        .sub-text { font-size: 12px; color: var(--text-muted); }
+        .main-text { font-size: 15px; font-weight: 600; display: block; margin-bottom: 3px; color: #fff; }
+        .sub-text { font-size: 12px; color: var(--text-muted); font-weight: 500; }
         .amount-col { text-align: right; }
-        .amount-text { font-size: 15px; font-weight: 700; }
-        .green-txt { color: var(--success); } .red-txt { color: var(--danger); }
+        .amount-text { font-size: 15px; font-weight: 700; color: #fff; }
+        .green-txt { color: var(--success) !important; } 
+        .red-txt { color: var(--text-main) !important; }
 
         /* BUTTONS */
-        .btn-add { width: 32px; height: 32px; border-radius: 10px; background: var(--primary); color: white; border: none; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+        .btn-add { width: 32px; height: 32px; border-radius: 10px; background: var(--primary); color: white; border: none; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
         .btn-large { width: 100%; padding: 18px; background: var(--text-main); color: black; border-radius: 18px; font-weight: 700; border: none; font-size: 16px; margin-top: 20px; cursor: pointer; transition: 0.2s; }
         .btn-large:active { transform: scale(0.97); opacity: 0.9; }
         .btn-large.primary { background: var(--primary); color: white; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3); }
-        .btn-link-bank { width: 100%; padding: 15px; background: var(--surface-highlight); color: var(--primary); border: 1px dashed var(--primary); border-radius: 16px; font-weight: 600; margin-bottom: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        .btn-bank-sync {
+            width: 100%; padding: 14px; background: rgba(59, 130, 246, 0.1); color: var(--primary); 
+            border: 1px dashed var(--primary); border-radius: 16px; font-weight: 600; 
+            display: flex; align-items: center; justify-content: center; gap: 10px; 
+            cursor: pointer; margin-bottom: 20px; transition: 0.2s;
+        }
+        .btn-bank-sync:active { background: rgba(59, 130, 246, 0.2); }
 
         /* NAVIGATION */
         .dock-wrapper { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; z-index: 100; }
-        .dock { background: rgba(22, 22, 22, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: 32px; padding: 12px 24px; display: flex; gap: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .dock { 
+            background: rgba(22, 22, 22, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 32px; 
+            padding: 12px 24px; display: flex; gap: 24px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
+        }
         .nav-item { font-size: 22px; color: var(--text-muted); padding: 5px; position: relative; transition: 0.3s; cursor: pointer; }
-        .nav-item.active { color: var(--primary); transform: translateY(-3px); }
-        .nav-item.active::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); }
+        .nav-item.active { color: var(--primary); transform: translateY(-4px); }
+        .nav-item.active::after { 
+            content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); 
+            width: 4px; height: 4px; background: var(--primary); border-radius: 50%; 
+            box-shadow: 0 0 10px var(--primary); 
+        }
+
+        /* MARKET */
+        .chip-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; scrollbar-width: none; }
+        .chip { padding: 8px 18px; background: var(--surface); border: var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap; transition: 0.2s; }
+        .chip.active { background: var(--text-main); color: black; border-color: var(--text-main); }
 
         /* MODALS */
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 200; display: none; align-items: flex-end; opacity: 0; transition: opacity 0.3s; }
@@ -83,30 +131,29 @@
 
         /* ONBOARDING */
         #modalOnboarding { z-index: 300; background: #000; }
-        #modalOnboarding .sheet { height: 100vh; border-radius: 0; padding-top: 80px; display: flex; flex-direction: column; justify-content: center; background: radial-gradient(circle at top right, #1e1b4b, #000); }
+        #modalOnboarding .sheet { height: 100vh; border-radius: 0; padding-top: 100px; display: flex; flex-direction: column; justify-content: center; background: radial-gradient(circle at top right, #1e1b4b, #000); }
+
+        /* BANK SYNC SIMULATION */
+        .bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .bank-option { background: var(--surface-light); padding: 15px; border-radius: 16px; text-align: center; cursor: pointer; border: 1px solid transparent; transition: 0.2s; }
+        .bank-option:active { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); }
+        .bank-logo { width: 40px; height: 40px; border-radius: 10px; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #000; font-size: 10px; }
 
         /* INPUTS */
+        .input-group { margin-bottom: 20px; }
         .label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .input { width: 100%; padding: 18px; background: #000; border: 1px solid #333; border-radius: 16px; color: white; font-size: 16px; outline: none; transition: 0.2s; }
         .input:focus { border-color: var(--primary); }
         select.input { appearance: none; }
 
-        /* BANK SYNC SIMULATION */
-        .bank-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #222; cursor: pointer; transition: 0.2s; }
-        .bank-item:hover { background: var(--surface-light); }
-        .bank-logo { width: 30px; height: 30px; border-radius: 6px; margin-right: 15px; background: #fff; }
-        
         /* EXTRAS */
-        .chip-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; scrollbar-width: none; }
-        .chip { padding: 8px 18px; background: var(--surface); border: var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
-        .chip.active { background: var(--text-main); color: black; border-color: var(--text-main); }
         .ad-banner { background: linear-gradient(135deg, #1A1A1A, #000); border: 1px dashed #333; border-radius: 16px; padding: 15px; text-align: center; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); }
-        
-        .progress-bg { height: 6px; background: var(--surface-light); border-radius: 3px; overflow: hidden; margin-top: 12px; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; }
         .tx-toggle { display: flex; background: var(--surface-light); padding: 4px; border-radius: 14px; margin-bottom: 20px; }
         .tx-option { flex: 1; text-align: center; padding: 12px; font-weight: 600; border-radius: 12px; color: var(--text-muted); transition: 0.2s; cursor: pointer; }
         .tx-option.active { background: var(--surface); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        
+        .progress-bg { height: 6px; background: var(--surface-light); border-radius: 3px; overflow: hidden; margin-top: 12px; }
+        .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -115,21 +162,21 @@
 
     <div class="header">
         <div class="top-row">
-            <div class="brand">Finance Master <span id="proBadge" class="pro-pill">PRO</span></div>
+            <div class="brand"><i class="fa-solid fa-shapes"></i> Finance Master <span id="proBadge" class="pro-pill">PRO</span></div>
             <div class="settings-btn" onclick="switchView('settings')"><i class="fa-solid fa-sliders"></i></div>
         </div>
         <div class="balance-section">
             <div class="balance-label">PATRIMOINE NET</div>
             <div class="balance-amount" id="totalBalance">0,00 €</div>
-            <div class="balance-pill" id="balanceDetails"><i class="fa-solid fa-wallet"></i> ...</div>
+            <div class="balance-pill" id="balanceDetails"><i class="fa-solid fa-chart-line"></i> ---</div>
         </div>
     </div>
 
     <div class="dock-wrapper">
         <div class="dock">
             <div class="nav-item active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-house"></i></div>
-            <div class="nav-item" onclick="switchView('budget', this)"><i class="fa-solid fa-piggy-bank"></i></div>
-            <div class="nav-item" onclick="switchView('market', this)"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="nav-item" onclick="switchView('budget', this)"><i class="fa-solid fa-wallet"></i></div>
+            <div class="nav-item" onclick="switchView('market', this)"><i class="fa-solid fa-arrow-trend-up"></i></div>
             <div class="nav-item" onclick="switchView('recurring', this)"><i class="fa-solid fa-rotate"></i></div>
             <div class="nav-item" onclick="switchView('stats', this)"><i class="fa-solid fa-chart-pie"></i></div>
         </div>
@@ -145,8 +192,8 @@
                 <button class="btn-add" onclick="openSheet('acc')"><i class="fa-solid fa-plus"></i></button>
             </div>
             
-            <button class="btn-link-bank" onclick="openSheet('bankSync')">
-                <i class="fa-solid fa-building-columns"></i> Lier une banque (Auto)
+            <button class="btn-bank-sync" onclick="openSheet('bank')">
+                <i class="fa-solid fa-link"></i> Connecter une banque
             </button>
 
             <div id="accountsList"></div>
@@ -155,9 +202,7 @@
                 <span class="section-title">Activités</span>
                 <button class="btn-add" onclick="openSheet('tx')"><i class="fa-solid fa-plus"></i></button>
             </div>
-            <div id="transactionsList">
-                <div class="card" style="text-align:center; padding:30px; opacity:0.5;">Aucune activité récente</div>
-            </div>
+            <div id="transactionsList"></div>
         </div>
 
         <div id="budgetView" class="view">
@@ -220,29 +265,28 @@
             <div style="text-align:center; margin-bottom:40px;">
                 <i class="fa-solid fa-wallet" style="font-size:60px; color:var(--primary); margin-bottom:20px;"></i>
                 <h1>Bienvenue</h1>
-                <p style="color:var(--text-muted);">Ajoutez votre compte principal.</p>
+                <p style="color:var(--text-muted);">Ajoutez votre compte principal pour commencer.</p>
             </div>
-            <div class="input-group"><label class="label">Banque</label><input id="setupName" type="text" class="input" placeholder="Ex: Boursorama"></div>
-            <div class="input-group"><label class="label">Solde</label><input id="setupBal" type="number" step="0.01" class="input" placeholder="0.00"></div>
+            <div class="input-group"><label class="label">Nom de la banque</label><input id="setupName" type="text" class="input" placeholder="Ex: Boursorama"></div>
+            <div class="input-group"><label class="label">Solde actuel</label><input id="setupBal" type="number" step="0.01" class="input" placeholder="0.00"></div>
             <button class="btn-large primary" onclick="completeOnboarding()">Commencer</button>
         </div>
     </div>
 
-    <div id="sheet-bankSync" class="overlay" onclick="closeSheet(event, 'bankSync')">
+    <div id="sheet-bank" class="overlay" onclick="closeSheet(event, 'bank')">
         <div class="sheet">
             <div class="handle"></div><h2 style="margin-bottom:20px;">Choisir une banque</h2>
-            <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">Connexion sécurisée via API (Simulation)</p>
-            <div class="bank-list">
-                <div class="bank-item" onclick="simulateBankLink('BNP Paribas')"><div class="bank-logo"></div><b>BNP Paribas</b></div>
-                <div class="bank-item" onclick="simulateBankLink('Société Générale')"><div class="bank-logo" style="background:#e1141c"></div><b>Société Générale</b></div>
-                <div class="bank-item" onclick="simulateBankLink('Revolut')"><div class="bank-logo" style="background:#000"></div><b>Revolut</b></div>
-                <div class="bank-item" onclick="simulateBankLink('PayPal')"><div class="bank-logo" style="background:#003087"></div><b>PayPal</b></div>
+            <div class="bank-grid">
+                <div class="bank-option" onclick="simulateSync('Revolut', '#000')"><div class="bank-logo" style="background:#000; color:#fff">R</div>Revolut</div>
+                <div class="bank-option" onclick="simulateSync('PayPal', '#003087')"><div class="bank-logo" style="background:#003087; color:#fff">P</div>PayPal</div>
+                <div class="bank-option" onclick="simulateSync('Boursorama', '#d1005d')"><div class="bank-logo" style="background:#d1005d; color:#fff">B</div>Bourso</div>
+                <div class="bank-option" onclick="simulateSync('Binance', '#F3BA2F')"><div class="bank-logo" style="background:#F3BA2F; color:#000">B</div>Binance</div>
             </div>
         </div>
     </div>
 
-    <div id="sheet-acc" class="overlay" onclick="closeSheet(event, 'acc')"><div class="sheet"><div class="handle"></div><h2>Nouveau Compte</h2><div class="input-group"><label class="label">Type</label><select id="accType" class="input"><option value="bank">Banque</option><option value="crypto">Crypto</option><option value="stock">Bourse</option></select></div><div class="input-group"><label class="label">Nom</label><input id="accName" type="text" class="input"></div><div class="input-group"><label class="label">Solde</label><input id="accBal" type="number" class="input"></div><button class="btn-large primary" onclick="addAccount()">Ajouter</button></div></div>
-    <div id="sheet-tx" class="overlay" onclick="closeSheet(event, 'tx')"><div class="sheet"><div class="handle"></div><h2>Transaction</h2><div class="tx-toggle"><div id="optExp" class="tx-option active" onclick="setTxType('expense')">Dépense</div><div id="optInc" class="tx-option income" onclick="setTxType('income')">Revenu</div></div><div class="input-group"><label class="label">Montant</label><input id="tAmount" type="number" class="input" style="font-size:24px; font-weight:700;"></div><div class="input-group"><label class="label">Catégorie</label><input id="tCat" type="text" class="input" list="cats"><datalist id="cats"><option value="Alimentation"><option value="Loyer"></datalist></div><button class="btn-large primary" onclick="addTransaction()">Valider</button></div></div>
+    <div id="sheet-acc" class="overlay" onclick="closeSheet(event, 'acc')"><div class="sheet"><div class="handle"></div><h2>Nouveau Compte</h2><div class="input-group"><label class="label">Type</label><select id="accType" class="input"><option value="bank">Banque</option><option value="crypto">Crypto</option><option value="stock">Bourse</option><option value="cash">Cash</option></select></div><div class="input-group"><label class="label">Nom</label><input id="accName" type="text" class="input"></div><div class="input-group"><label class="label">Solde</label><input id="accBal" type="number" class="input"></div><button class="btn-large primary" onclick="addAccount()">Ajouter</button></div></div>
+    <div id="sheet-tx" class="overlay" onclick="closeSheet(event, 'tx')"><div class="sheet"><div class="handle"></div><h2>Transaction</h2><div class="tx-toggle"><div id="optExp" class="tx-option active" onclick="setTxType('expense')">Dépense</div><div id="optInc" class="tx-option income" onclick="setTxType('income')">Revenu</div></div><div class="input-group"><label class="label">Montant</label><input id="tAmount" type="number" class="input" style="font-size:24px; font-weight:700;"></div><div class="input-group"><label class="label">Catégorie</label><input id="tCat" type="text" class="input" list="cats"><datalist id="cats"><option value="Alimentation"><option value="Transport"><option value="Loyer"></datalist></div><button class="btn-large primary" onclick="addTransaction()">Valider</button></div></div>
     <div id="sheet-bud" class="overlay" onclick="closeSheet(event, 'bud')"><div class="sheet"><div class="handle"></div><h2>Budget</h2><div class="input-group"><label class="label">Catégorie</label><input id="bCat" type="text" class="input" list="cats"></div><div class="input-group"><label class="label">Limite</label><input id="bLimit" type="number" class="input"></div><button class="btn-large primary" onclick="addBudget()">Créer</button></div></div>
     <div id="sheet-goal" class="overlay" onclick="closeSheet(event, 'goal')"><div class="sheet"><div class="handle"></div><h2>Objectif</h2><div class="input-group"><label class="label">Nom</label><input id="gName" type="text" class="input"></div><div class="input-group"><label class="label">Cible</label><input id="gTarget" type="number" class="input"></div><div class="input-group"><label class="label">Actuel</label><input id="gCurrent" type="number" class="input"></div><button class="btn-large primary" onclick="addGoal()">Fixer</button></div></div>
     <div id="sheet-rec" class="overlay" onclick="closeSheet(event, 'rec')"><div class="sheet"><div class="handle"></div><h2>Récurrent</h2><div class="input-group"><label class="label">Nom</label><input id="rName" type="text" class="input"></div><div class="input-group"><label class="label">Montant</label><input id="rAmount" type="number" class="input"></div><div class="input-group"><label class="label">Type</label><select id="rType" class="input"><option value="expense">Dépense</option><option value="income">Revenu</option></select></div><button class="btn-large primary" onclick="addRecurring()">Ajouter</button></div></div>
@@ -250,7 +294,7 @@
 
     <script>
         // CONFIG
-        const VER = '15.0'; 
+        const VER = '16.0'; 
         let state = { accounts:[], transactions:[], budgets:[], goals:[], recurring:[], currency:'EUR', isPremium:false, setup:false };
         let marketData = [];
         let currentTxType = 'expense';
@@ -258,7 +302,7 @@
         let flowChartInstance = null;
 
         // MOCK DATA (Fallback Secours)
-        const MOCK_DATA = [
+        const MOCK = [
             { id:'bitcoin', symbol:'btc', name:'Bitcoin', current_price:43500, price_change_percentage_24h:1.2, image:'https://assets.coingecko.com/coins/images/1/large/bitcoin.png' },
             { id:'ethereum', symbol:'eth', name:'Ethereum', current_price:2300, price_change_percentage_24h:-0.5, image:'https://assets.coingecko.com/coins/images/279/large/ethereum.png' },
             { id:'solana', symbol:'sol', name:'Solana', current_price:95, price_change_percentage_24h:5.4, image:'https://assets.coingecko.com/coins/images/4128/large/solana.png' },
@@ -270,8 +314,10 @@
             if(localStorage.getItem('ver')!==VER) { if(!localStorage.getItem('state')) localStorage.clear(); localStorage.setItem('ver', VER); }
             if(localStorage.getItem('state')) state = JSON.parse(localStorage.getItem('state'));
             
+            // Onboarding Check
             if(!state.setup) {
                 document.getElementById('modalOnboarding').classList.add('open');
+                document.getElementById('modalOnboarding').style.display = 'flex'; // Force display
             } else {
                 initApp();
             }
@@ -284,11 +330,12 @@
                 state.accounts.push({ id:Date.now(), name, type:'bank', balance:bal });
                 state.setup = true;
                 save();
-                // FORCE CLOSE BUG FIX
-                document.getElementById('modalOnboarding').style.display = 'none';
-                document.getElementById('modalOnboarding').classList.remove('open');
+                // Fermeture forcée du modal
+                const modal = document.getElementById('modalOnboarding');
+                modal.classList.remove('open');
+                setTimeout(() => modal.style.display = 'none', 300); // Wait for transition
                 initApp();
-            } else { alert("Champs invalides"); }
+            } else { alert("Veuillez remplir les informations."); }
         }
 
         function initApp() {
@@ -296,14 +343,16 @@
             checkPremium();
             updateUI();
             processRecurring();
-            loadMarket();
+            setTimeout(loadMarket, 500);
         }
 
         function save() { localStorage.setItem('state', JSON.stringify(state)); updateUI(); }
         function fmt(n) { return (parseFloat(n)*(state.currency=='USD'?1.08:1)).toLocaleString('fr-FR',{minimumFractionDigits:2, maximumFractionDigits:2}) + (state.currency=='EUR'?' €':' $'); }
-        function toast(msg) { const t=document.getElementById('toast'); t.innerHTML=msg; t.style.transform="translateX(-50%) translateY(0)"; setTimeout(()=>t.style.transform="translateX(-50%) translateY(-100px)", 3000); }
+        function toast(msg) { const t=document.getElementById('toast'); t.innerText=msg; t.style.transform="translateX(-50%) translateY(0)"; setTimeout(()=>t.style.transform="translateX(-50%) translateY(-100px)", 3000); }
 
+        // --- UI ---
         function updateUI() {
+            // Dashboard
             let total = state.accounts.reduce((s,a)=>s+parseFloat(a.balance),0);
             document.getElementById('totalBalance').innerText = fmt(total);
             document.getElementById('balanceDetails').innerHTML = `${state.accounts.length} comptes`;
@@ -313,7 +362,7 @@
                     <div class="icon-box" style="color:${getColor(a.type)}"><i class="fa-solid ${getIcon(a.type)}"></i></div>
                     <div class="info-col"><span class="main-text">${a.name}</span><span class="sub-text">${a.type.toUpperCase()}</span></div>
                     <div class="amount-col"><span class="amount-text">${fmt(a.balance)}</span></div>
-                </div>`).join('') : '';
+                </div>`).join('') : '<div style="text-align:center; opacity:0.5; padding:20px;">Aucun compte</div>';
 
             document.getElementById('transactionsList').innerHTML = state.transactions.length ? state.transactions.slice().reverse().slice(0,5).map(t => `
                 <div class="row-item" style="border-bottom:1px solid rgba(255,255,255,0.05); padding:10px 0;">
@@ -322,41 +371,47 @@
                     </div>
                     <div class="info-col"><span class="main-text">${t.category}</span><span class="sub-text">${new Date(t.date).toLocaleDateString()}</span></div>
                     <div class="amount-col"><span class="amount-text ${t.type=='income'?'green-txt':''}">${t.type=='income'?'+':'-'}${fmt(t.amount)}</span></div>
-                </div>`).join('') : '<div class="card" style="text-align:center; padding:30px; opacity:0.5;">Aucune activité</div>';
+                </div>`).join('') : '<div class="card" style="text-align:center; padding:30px; opacity:0.5;">Aucune transaction</div>';
 
-            // ... (Budgets/Goals/Recurring code similar to previous, shortened for context limit, logic preserved)
+            // Budgets
             document.getElementById('budgetList').innerHTML = state.budgets.map(b => {
                 let spent = state.transactions.filter(t=>t.type=='expense' && t.category==b.category).reduce((s,t)=>s+t.amount,0);
                 let pct = Math.min((spent/b.limit)*100, 100);
                 return `<div class="card"><div style="display:flex;justify-content:space-between"><span class="main-text">${b.category}</span><span class="sub-text">${fmt(spent)} / ${fmt(b.limit)}</span></div><div class="progress-bg"><div class="progress-fill" style="width:${pct}%; background:${pct>90?'var(--danger)':'var(--primary)'}"></div></div></div>`;
             }).join('');
-            
+
+            // Goals
+            document.getElementById('goalsList').innerHTML = state.goals.map(g => {
+                let pct = Math.min((g.current/g.target)*100, 100);
+                return `<div class="card"><div style="display:flex;justify-content:space-between"><span class="main-text">${g.name}</span><span class="sub-text">${Math.round(pct)}%</span></div><div class="progress-bg"><div class="progress-fill" style="width:${pct}%; background:var(--success)"></div></div></div>`;
+            }).join('');
+
+            // Recurring
             let rTot = state.recurring.reduce((s,r)=>s+(r.type=='expense'?-parseFloat(r.amount):parseFloat(r.amount)),0);
             document.getElementById('totalRec').innerText = (rTot>0?'+':'')+fmt(rTot);
             document.getElementById('recurringList').innerHTML = state.recurring.map(r => `<div class="card row-item"><div class="info-col"><span class="main-text">${r.name}</span></div><div class="amount-col"><span class="amount-text ${r.type=='income'?'green-txt':''}">${r.type=='income'?'+':'-'}${fmt(r.amount)}</span></div></div>`).join('');
 
-            updateStats();
+            drawStats();
         }
 
         function getIcon(t) { return {bank:'fa-landmark', crypto:'fa-bitcoin', stock:'fa-arrow-trend-up'}[t] || 'fa-wallet'; }
         function getColor(t) { return {bank:'#3B82F6', crypto:'#8B5CF6', stock:'#10B981', cash:'#F59E0B'}[t] || '#fff'; }
 
-        // --- MARKET FAIL-SAFE ---
+        // --- MARKET ---
         async function loadMarket() {
-            document.getElementById('marketList').innerHTML = '<div style="text-align:center; opacity:0.5; padding:20px;">Chargement...</div>';
+            document.getElementById('marketList').innerHTML = '<div class="card" style="text-align:center; opacity:0.5; padding:20px;">Chargement...</div>';
             try {
-                // Try API with 2s timeout
+                // Try API with Timeout
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 2000);
+                const id = setTimeout(() => controller.abort(), 2000);
                 const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin,ethereum,solana,binancecoin,ripple&sparkline=false', { signal: controller.signal });
-                clearTimeout(timeoutId);
-                
+                clearTimeout(id);
                 if(!res.ok) throw new Error('Limit');
                 const data = await res.json();
-                marketData = [...data, ...MOCK_DATA.slice(3)]; // Mix Real + Mock Stocks
+                marketData = [...data, ...MOCK.slice(3)]; 
             } catch(e) {
-                console.log("API Fail, using Mock");
-                marketData = MOCK_DATA;
+                console.log("Fallback Market Data");
+                marketData = MOCK; // Fallback
             }
             renderMarket(marketData);
         }
@@ -390,28 +445,24 @@
             let v = parseFloat(val('tAmount')); 
             if(isNaN(v)) return;
             state.transactions.push({ amount:v, type:currentTxType, category:val('tCat'), date:new Date() });
-            if(state.accounts.length) state.accounts[0].balance += (currentTxType=='income'?v:-v);
-            save(); closeSheet(null,'tx'); toast('Transaction OK');
+            // Balance Update Logic
+            if(state.accounts.length > 0) state.accounts[0].balance += (currentTxType=='income' ? v : -v);
+            save(); closeSheet(null,'tx'); toast('Enregistré');
         }
-        // ... (Other adds similar)
         function addBudget() { state.budgets.push({category:val('bCat'), limit:val('bLimit')}); save(); closeSheet(null,'bud'); toast('Budget OK'); }
         function addGoal() { state.goals.push({name:val('gName'), target:val('gTarget'), current:val('gCurrent')}); save(); closeSheet(null,'goal'); toast('Objectif OK'); }
         function addRecurring() { state.recurring.push({name:val('rName'), amount:val('rAmount'), type:val('rType')}); save(); closeSheet(null,'rec'); toast('Récurrent OK'); }
-        function val(id) { return document.getElementById(id).value; }
-
-        // --- SIMULATION BANQUE ---
-        function simulateBankLink(bankName) {
-            closeSheet(null, 'bankSync');
-            toast('Connexion à '+bankName+'...');
+        function simulateSync(name, color) {
+            closeSheet(null, 'bank'); toast('Connexion à '+name+'...');
             setTimeout(() => {
-                state.accounts.push({ id:Date.now(), name: bankName + ' Compte', type:'bank', balance: Math.floor(Math.random() * 5000) + 500 });
-                save();
-                toast('Compte synchronisé avec succès');
+                state.accounts.push({ id:Date.now(), name: name, type:'bank', balance: Math.floor(Math.random()*2000)+500 });
+                save(); toast('Compte synchronisé');
             }, 1500);
         }
+        function val(id) { return document.getElementById(id).value; }
 
         // --- STATS ---
-        function updateStats() {
+        function drawStats() {
             const ctx = document.getElementById('catChart');
             const cats = {}; state.transactions.filter(t=>t.type=='expense').forEach(t => cats[t.category] = (cats[t.category]||0)+t.amount);
             
@@ -454,6 +505,11 @@
         function processPayment() { state.isPremium=true; save(); checkPremium(); closeSheet(null,'pay'); toast('Bienvenue PRO !'); }
         function resetApp() { if(confirm('Tout effacer ?')){ localStorage.clear(); location.reload(); } }
         function changeCurrency(v) { state.currency=v; save(); }
+        function processRecurring() {}
+        function searchMarket(val) {
+            const q = val.toLowerCase();
+            renderMarket(marketData.filter(i => i.name.toLowerCase().includes(q) || i.symbol.toLowerCase().includes(q)));
+        }
         function exportData() {
             const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
             const node = document.createElement('a'); node.setAttribute("href", str); node.setAttribute("download", "backup.json");
@@ -463,11 +519,6 @@
             const reader = new FileReader();
             reader.onload = (event) => { try { state = JSON.parse(event.target.result); save(); toast('Import réussi'); } catch(e) { alert('Fichier invalide'); } };
             reader.readAsText(e.target.files[0]);
-        }
-        function processRecurring() {}
-        function searchMarket(val) {
-            const q = val.toLowerCase();
-            renderMarket(marketData.filter(i => i.name.toLowerCase().includes(q) || i.symbol.toLowerCase().includes(q)));
         }
     </script>
 </body>
