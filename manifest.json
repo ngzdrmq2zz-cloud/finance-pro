@@ -1,6 +1,7 @@
 {
   "name": "Finance Master Pro",
   "short_name": "Finance",
+  "description": "Gestion de finances personnelles, budgets et crypto.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
