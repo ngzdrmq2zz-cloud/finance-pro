@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#0f172a">
     <title>Finance Master Pro</title>
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpbmFuY2UgTWFzdGVyIFBybyIsCiAgInNob3J0X25hbWUiOiAiRmluYW5jZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGYxNzJhIiwKICAidGhlbWVfY29sb3IiOiAiIzBmMTcyYSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJodHRwcz6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMjkxMC8yOTEwNzk1LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+    <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -255,7 +255,7 @@
 
     <script>
         // --- DATA & STATE ---
-        const VER = '8.0'; // Force update
+        const VER = '9.0';
         let state = { accounts:[], transactions:[], budgets:[], goals:[], recurring:[], currency:'EUR', isPremium:false };
         let marketData = [];
         let charts = {};
@@ -266,7 +266,7 @@
             if(localStorage.getItem('state')) state = JSON.parse(localStorage.getItem('state'));
             
             initUI();
-            processRecurring(); // Check dates
+            processRecurring(); 
             setTimeout(fetchMarket, 500);
         });
 
@@ -355,11 +355,6 @@
             const type = id('tType').value;
             state.transactions.push({ amount:amt, type:type, category:id('tCat').value, date:new Date() });
             if(state.accounts.length) { state.accounts[0].balance = parseFloat(state.accounts[0].balance) + (type=='income'?amt:-amt); }
-            
-            // Check Goals auto-contribution
-            if(type=='expense') { // Simulation d'épargne sur dépense
-                // Logic simplifiée
-            }
             save(); closeModal(null,'modalTransac'); toast('Transaction ajoutée');
         }
         function addBudget() {
@@ -373,28 +368,6 @@
         function addRecurring() {
             state.recurring.push({ name:id('rName').value, amount:id('rAmount').value, type:id('rType').value });
             save(); closeModal(null,'modalRecurring'); toast('Abonnement ajouté');
-        }
-
-        // --- IMPORT / EXPORT ---
-        function exportData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
-            const node = document.createElement('a');
-            node.setAttribute("href", dataStr);
-            node.setAttribute("download", "finance_backup.json");
-            document.body.appendChild(node); node.click(); node.remove();
-        }
-        function importData(e) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                try { state = JSON.parse(event.target.result); save(); toast('Données importées !'); } 
-                catch(e) { alert('Fichier invalide'); }
-            };
-            reader.readAsText(e.target.files[0]);
-        }
-
-        // --- RECURRING LOGIC ---
-        function processRecurring() {
-            // Dans une vraie app, on vérifie la date. Ici, on simule juste l'affichage.
         }
 
         // --- MARKET ---
@@ -416,7 +389,7 @@
                     </div>
                 </div>`).join('');
         }
-        function filterMarket(t) { renderMarket(t=='all'?marketData:[]); } // Simplifié
+        function filterMarket(t) { renderMarket(t=='all'?marketData:[]); }
 
         // --- STATS (Chart.js) ---
         function updateStats() {
@@ -458,6 +431,25 @@
             state.isPremium=true; save(); checkPremium(); closeModal(null,'modalPay'); toast('Bienvenue PRO !');
         }
         function resetApp() { if(confirm('Tout effacer ?')){ localStorage.clear(); location.reload(); } }
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+            const node = document.createElement('a');
+            node.setAttribute("href", dataStr);
+            node.setAttribute("download", "finance_backup.json");
+            document.body.appendChild(node); node.click(); node.remove();
+        }
+        function importData(e) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try { state = JSON.parse(event.target.result); save(); toast('Données importées !'); } 
+                catch(e) { alert('Fichier invalide'); }
+            };
+            reader.readAsText(e.target.files[0]);
+        }
+        function processRecurring() {
+            // Simulation
+        }
+        function changeCurrency(val) { state.currency=val; save(); }
 
     </script>
 </body>
